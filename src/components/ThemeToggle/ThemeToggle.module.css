@@ -1,0 +1,64 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: 0 var(--space-1);
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.toggle:hover {
+  color: var(--color-text);
+}
+
+/* На узких экранах подпись скрыта визуально, но остаётся доступным именем кнопки */
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  display: inline-block;
+  width: 2.75rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: var(--color-surface-muted);
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: calc(1.5rem - 6px);
+  height: calc(1.5rem - 6px);
+  border-radius: 50%;
+  background: var(--color-text);
+  color: var(--color-bg);
+  transition: transform var(--duration-fast) var(--easing);
+}
+
+.toggle[aria-checked='true'] .thumb {
+  transform: translateX(1.25rem);
+}
+
+@media (min-width: 64rem) {
+  .label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+}
