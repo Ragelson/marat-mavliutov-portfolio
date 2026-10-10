@@ -1,0 +1,91 @@
+.figure {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.layers {
+  display: grid;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--color-line-strong);
+}
+
+.layer {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* Названия модулей — крупная типографика, разделители — оформление */
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15em 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.02em;
+}
+
+.items li:not(:last-child)::after {
+  content: '/';
+  margin-inline: 0.4em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+/* Модули — центральный слой: самый крупный, метка залита оранжевым */
+.layer[data-layer='modules'] .items {
+  font-size: clamp(1.625rem, 1.1rem + 1.6vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.layer[data-layer='modules'] :global(.label) {
+  justify-self: start;
+  padding: 0.1rem var(--space-2);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.layer[data-layer='api'] .items,
+.layer[data-layer='dto'] .items {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.outside {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px dashed var(--color-line-strong);
+}
+
+.outside p {
+  font-weight: 600;
+}
+
+.caption {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+@media (min-width: 48rem) {
+  .layer {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-5);
+  }
+
+  .outside {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-5);
+  }
+}

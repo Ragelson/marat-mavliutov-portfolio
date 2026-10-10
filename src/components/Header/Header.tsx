@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { site } from '../../config/site.ts'
+import { ExternalLink } from '../ExternalLink/ExternalLink.tsx'
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle.tsx'
 import styles from './Header.module.css'
 
 /** Ссылки ведут на секции главной страницы и поэтому работают с любой страницы сайта. */
 const navItems = [
-  { hash: '#projects', label: 'Проекты' },
-  { hash: '#directions', label: 'Направления' },
+  { hash: '#work', label: 'Работы' },
   { hash: '#about', label: 'Обо мне' },
   { hash: '#contacts', label: 'Контакты' },
 ]
@@ -34,7 +34,8 @@ export function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <Link to="/" className={styles.brand} onClick={closeMenu}>
-          {site.name}
+          {site.handle}
+          <span className="visually-hidden"> — {site.name}, на главную</span>
         </Link>
 
         <nav aria-label="Основная навигация" className={styles.nav}>
@@ -57,6 +58,11 @@ export function Header() {
                 </Link>
               </li>
             ))}
+            <li className={styles.external}>
+              <ExternalLink href={site.contacts.github} className={styles.link}>
+                GitHub <span aria-hidden="true">↗</span>
+              </ExternalLink>
+            </li>
           </ul>
         </nav>
 

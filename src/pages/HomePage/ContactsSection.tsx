@@ -1,37 +1,49 @@
+import { Arrow } from '../../components/Arrow/Arrow.tsx'
 import { ExternalLink } from '../../components/ExternalLink/ExternalLink.tsx'
 import { site } from '../../config/site.ts'
 import { getContactLinks } from '../../lib/contacts.ts'
-import styles from './HomePage.module.css'
+import styles from './ContactsSection.module.css'
 
 const contactLinks = getContactLinks(site.contacts)
 
+/** Финал страницы. Показываются только настроенные контакты, подписи честно называют канал. */
 export function ContactsSection() {
   return (
-    <section id="contacts" tabIndex={-1} className={`container ${styles.section}`} aria-labelledby="contacts-title">
-      <div className={styles.contacts}>
-        <h2 id="contacts-title" className={styles.sectionTitle}>
-          Контакты
+    <section id="contacts" tabIndex={-1} className={`surface-accent ${styles.finale}`} aria-labelledby="contacts-title">
+      <div className={`container ${styles.grid}`}>
+        <p className="label">Контакты</p>
+        <h2 id="contacts-title" className={styles.title}>
+          Есть задача? Обсудим.
         </h2>
-        <p className={styles.lead}>Готов обсудить проект или работу.</p>
-        <ul className={styles.contactList}>
-          {contactLinks.map((contact, index) => {
-            const className = index === 0 ? 'button button-primary' : 'button'
+        <ul className={styles.list}>
+          {contactLinks.map((contact) => {
+            const content = (
+              <>
+                <span className={styles.channel}>{contact.label}</span>
+                <span className={styles.address}>{contact.text}</span>
+                <Arrow direction={contact.external ? 'up-right' : 'right'} />
+              </>
+            )
             return (
               <li key={contact.id}>
                 {contact.external ? (
-                  <ExternalLink href={contact.href} className={className}>
-                    {contact.label}
+                  <ExternalLink href={contact.href} className={styles.link}>
+                    {content}
                   </ExternalLink>
                 ) : (
-                  <a href={contact.href} className={className}>
-                    {contact.label}
+                  <a href={contact.href} className={styles.link}>
+                    {content}
                   </a>
                 )}
-                <span className={styles.contactText}>{contact.text}</span>
               </li>
             )
           })}
         </ul>
+        <p className={styles.signature}>
+          <span>{site.name}</span>
+          <span className={styles.handle}>{site.handle}</span>
+          <span>{site.location}</span>
+        </p>
       </div>
     </section>
   )

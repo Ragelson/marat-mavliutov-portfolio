@@ -6,7 +6,7 @@ describe('страница кейса', () => {
   it('открывает опубликованный кейс', () => {
     renderApp('/projects/vivoai')
     expect(screen.getByRole('heading', { level: 1, name: 'VivoAI' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: 'Что сделал' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /Что сделано/ })).toBeInTheDocument()
     expect(document.title).toBe('VivoAI — Марат Мавлютов')
   })
 
@@ -15,7 +15,7 @@ describe('страница кейса', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Страница не найдена' })).toBeInTheDocument()
   })
 
-  it('показывает 404 для draft-проекта', () => {
+  it('показывает 404 для проекта без страницы кейса', () => {
     renderApp('/projects/vivocomp')
     expect(screen.getByRole('heading', { level: 1, name: 'Страница не найдена' })).toBeInTheDocument()
     expect(screen.queryByText('Vivocomp')).not.toBeInTheDocument()

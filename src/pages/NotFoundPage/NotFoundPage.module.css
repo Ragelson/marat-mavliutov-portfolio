@@ -1,26 +1,34 @@
 .page {
   display: grid;
   justify-items: start;
-  gap: var(--space-4);
-  padding-block: var(--space-9);
+  gap: var(--space-5);
+  padding-block: var(--space-8) var(--space-9);
 }
 
 .code {
-  font-family: var(--font-mono);
+  font-size: clamp(6rem, 2rem + 18vw, 16rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
   color: var(--color-accent);
 }
 
 .title {
   font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.05em;
 }
 
 .text {
-  color: var(--color-text-muted);
+  max-width: 40ch;
+  font-size: var(--text-lg);
+  color: var(--color-muted);
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-3) var(--space-6);
   margin-top: var(--space-3);
+  font-size: var(--text-lg);
 }

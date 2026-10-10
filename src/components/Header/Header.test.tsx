@@ -37,6 +37,6 @@ describe('шапка', () => {
 
   it('ссылки навигации ведут на секции главной страницы', () => {
     renderApp('/projects/vivoai')
-    expect(screen.getByRole('link', { name: 'Проекты' })).toHaveAttribute('href', '/#projects')
+    expect(screen.getByRole('link', { name: 'Работы' })).toHaveAttribute('href', '/#work')
   })
 })

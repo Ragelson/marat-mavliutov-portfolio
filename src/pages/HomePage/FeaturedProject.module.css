@@ -1,0 +1,189 @@
+.feature {
+  padding-block: var(--space-8) var(--space-9);
+}
+
+/* Две подряд светлые композиции разделены линией, а не пустотой */
+.feature + .feature:not(:global(.surface-inverse)) .grid {
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-line);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.counter {
+  color: var(--color-accent-text);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+.title a {
+  text-decoration: none;
+}
+
+.title a:hover {
+  color: var(--color-accent-text);
+}
+
+.status {
+  justify-self: start;
+  padding: 0.2rem var(--space-2);
+  border: 1.5px solid var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+.body {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+  max-width: 34rem;
+}
+
+.summary {
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+.role {
+  display: grid;
+  gap: var(--space-1);
+  font-weight: 600;
+}
+
+.highlights {
+  display: grid;
+  padding: 0;
+  list-style: none;
+  counter-reset: highlight;
+}
+
+.highlights li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+  border-top: 1px solid var(--color-line);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  counter-increment: highlight;
+}
+
+.highlights li::before {
+  content: counter(highlight, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.9;
+  color: var(--color-accent-text);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+
+.caseLink {
+  font-size: var(--text-lg);
+}
+
+.external {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+/* ——— Изображение ——— */
+.media {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.frame {
+  overflow: hidden;
+  border: 1.5px solid var(--color-line-strong);
+}
+
+.frame img {
+  width: 100%;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.feature:hover .frame img {
+  transform: scale(1.015);
+}
+
+/* ——— Раскладки на десктопе: разные для каждого вида материала ——— */
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-5);
+    row-gap: var(--space-7);
+  }
+
+  /* Схема архитектуры Vinc: заголовок на всю ширину, текст слева, схема справа */
+  [data-variant='vinc-architecture'] .head {
+    grid-column: 1 / -1;
+  }
+
+  [data-variant='vinc-architecture'] .body {
+    grid-column: 1 / span 4;
+  }
+
+  [data-variant='vinc-architecture'] .visual {
+    grid-column: 6 / -1;
+  }
+
+  /* Реальное изображение: крупно слева, текст колонкой справа */
+  [data-variant='media'] .visual {
+    grid-column: 1 / span 8;
+    grid-row: 1 / span 2;
+  }
+
+  [data-variant='media'] .head,
+  [data-variant='media'] .body {
+    grid-column: 9 / -1;
+  }
+
+  /* VivoAI и сеть: текст в две колонки сверху, схема — во всю ширину */
+  [data-variant='vivoai-flow'] .head,
+  [data-variant='office-network'] .head,
+  [data-variant='text'] .head {
+    grid-column: 1 / span 6;
+  }
+
+  [data-variant='vivoai-flow'] .body,
+  [data-variant='office-network'] .body,
+  [data-variant='text'] .body {
+    grid-column: 8 / -1;
+  }
+
+  [data-variant='vivoai-flow'] .visual,
+  [data-variant='office-network'] .visual {
+    grid-column: 1 / -1;
+  }
+
+  /* В композиции сети главное — схема, заголовок чуть сдержаннее */
+  [data-variant='office-network'] .title {
+    font-size: clamp(2.5rem, 1rem + 5vw, 5.5rem);
+  }
+}
