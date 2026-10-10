@@ -1,4 +1,3 @@
-import { categoryOrder } from '../data/categories.ts'
 import { projects as allProjects } from '../data/projects.ts'
 import type { Project, ProjectCategory, ProjectKind, ProjectStatus, TextBlock } from '../types/project.ts'
 
@@ -12,24 +11,39 @@ export const projectKindLabels: Record<ProjectKind, string> = {
   educational: 'Учебный проект',
 }
 
-/** Только опубликованные проекты; приоритетные — первыми, остальные сохраняют порядок из данных. */
+/** Проекты со страницей кейса: только published, в порядке из данных. */
 export function getPublishedProjects(source: Project[] = allProjects): Project[] {
-  const published = source.filter((project) => project.publicationStatus === 'published')
-  return [...published.filter((p) => p.featured), ...published.filter((p) => !p.featured)]
+  return source.filter((project) => project.publicationStatus === 'published')
 }
 
-/** Возвращает опубликованный проект или undefined — для draft и неизвестных slug одинаково. */
+/** Избранные проекты — отдельные крупные композиции на главной. */
+export function getFeaturedProjects(source: Project[] = allProjects): Project[] {
+  return getPublishedProjects(source).filter((project) => project.featured)
+}
+
+/** «Другие работы»: опубликованные неизбранные и listed-проекты. Draft сюда не попадает. */
+export function getOtherProjects(source: Project[] = allProjects): Project[] {
+  return source.filter(
+    (project) =>
+      project.publicationStatus === 'listed' || (project.publicationStatus === 'published' && !project.featured),
+  )
+}
+
+/** Возвращает проект со страницей кейса или undefined — для draft, listed и неизвестных slug одинаково. */
 export function getPublishedProjectBySlug(slug: string, source: Project[] = allProjects): Project | undefined {
   return getPublishedProjects(source).find((project) => project.slug === slug)
 }
 
-/** Категории, в которых есть хотя бы один проект, в порядке из categoryOrder. */
-export function getAvailableCategories(projects: Project[]): ProjectCategory[] {
-  return categoryOrder.filter((category) => projects.some((project) => project.categories.includes(category)))
+/** Следующий опубликованный кейс по кругу — для перехода в конце страницы кейса. */
+export function getNextPublishedProject(slug: string, source: Project[] = allProjects): Project | undefined {
+  const published = getPublishedProjects(source)
+  if (published.length < 2) return undefined
+  const index = published.findIndex((project) => project.slug === slug)
+  return published[(index + 1) % published.length]
 }
 
-export function filterByCategory(projects: Project[], category: ProjectCategory | 'all'): Project[] {
-  if (category === 'all') return projects
+/** Пригодится для будущих страниц /frontend, /infrastructure, /ai. */
+export function filterByCategory(projects: Project[], category: ProjectCategory): Project[] {
   return projects.filter((project) => project.categories.includes(category))
 }
 

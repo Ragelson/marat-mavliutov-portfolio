@@ -9,7 +9,7 @@ export function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
         <p>
-          © {year} {site.name} <span className={styles.handle}>· {site.handle}</span>
+          © {year} {site.name} <span className={styles.handle}>{site.handle}</span>
         </p>
         <p>
           <ExternalLink href={site.contacts.github}>GitHub</ExternalLink>

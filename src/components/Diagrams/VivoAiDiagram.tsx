@@ -1,47 +1,53 @@
-import styles from './Diagram.module.css'
+import styles from './VivoAiDiagram.module.css'
 
-const localSteps = [
-  { title: 'Менеджер', note: 'задаёт вопрос в чате' },
+const chain = [
+  { title: 'Менеджер', note: 'вопрос в чате' },
   { title: 'Open WebUI', note: 'интерфейс чата' },
-  { title: 'Ollama · Qwen3:14B', note: 'формирует ответ и вызовы инструментов' },
-  { title: 'Pipe-функция', note: 'SQL tool-calling' },
-  { title: 'PostgreSQL', note: 'организации → контракты → зоны → позиции' },
+  { title: 'Ollama · Qwen3:14B', note: 'ответ и вызовы инструментов' },
+  { title: 'Pipe-функция', note: 'SQL tool-calling', own: true },
+  { title: 'PostgreSQL', note: 'организации → контракты → зоны → позиции', own: true },
 ]
 
-const externalServices = [
+const external = [
   { title: 'Yandex API', note: 'поиск информации' },
   { title: '4Dealer API', note: 'подбор оборудования' },
 ]
 
+/** Схема VivoAI: локальная цепочка обработки и отдельно — обращения к внешним API. */
 export function VivoAiDiagram() {
   return (
     <figure className={styles.figure}>
-      <div className={styles.zones}>
-        <div className={styles.zone}>
-          <p className={styles.zoneTitle}>Локальный контур</p>
-          <ol className={styles.flow}>
-            {localSteps.map((step) => (
-              <li key={step.title} className={styles.node}>
-                <span className={styles.nodeTitle}>{step.title}</span>
-                <span className={styles.nodeNote}>{step.note}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div className={`${styles.zone} ${styles.zoneExternal}`}>
-          <p className={styles.zoneTitle}>Внешние вызовы</p>
-          <ul className={styles.stack}>
-            {externalServices.map((service) => (
-              <li key={service.title} className={styles.node}>
-                <span className={styles.nodeTitle}>{service.title}</span>
-                <span className={styles.nodeNote}>{service.note}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className={styles.perimeter}>
+        <p className={`label ${styles.zoneLabel}`}>Локальный контур</p>
+        <ol className={styles.chain}>
+          {chain.map((node, index) => (
+            <li key={node.title} className={styles.node} data-own={node.own ?? false}>
+              <span className={styles.index} aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span className={styles.title}>{node.title}</span>
+              <span className={styles.note}>{node.note}</span>
+            </li>
+          ))}
+        </ol>
       </div>
+
+      <div className={styles.external}>
+        <p className={`label ${styles.zoneLabel}`}>Внешние вызовы — за пределами контура</p>
+        <ul className={styles.externalList}>
+          {external.map((node) => (
+            <li key={node.title} className={styles.node}>
+              <span className={styles.title}>{node.title}</span>
+              <span className={styles.note}>{node.note}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <figcaption className={styles.caption}>
-        Упрощённая схема. Локальная модель и база данных показаны отдельно от обращений к внешним API.
+        <span className={styles.legend} aria-hidden="true" />
+        Собственная логика: Pipe-функция и схема базы данных. Схема упрощена; локальная обработка показана отдельно от
+        обращений к внешним API.
       </figcaption>
     </figure>
   )

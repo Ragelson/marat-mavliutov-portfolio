@@ -1,48 +1,45 @@
-import styles from './Diagram.module.css'
+import styles from './OfficeNetworkDiagram.module.css'
 
-interface OfficeProps {
-  name: string
-  lan: string
-  /** У правого офиса роутер стоит первым — ближе к туннелю. */
-  reversed?: boolean
-}
-
-function Office({ name, lan, reversed = false }: OfficeProps) {
-  const nodes = [
-    { title: 'Рабочие места', note: `${lan} · своя подсеть` },
-    { title: 'Роутер OpenWrt', note: 'Cudy WR3000S' },
-  ]
-  const ordered = reversed ? [...nodes].reverse() : nodes
-
+function Site({ letter }: { letter: 'A' | 'B' }) {
   return (
-    <div className={styles.zone}>
-      <p className={styles.zoneTitle}>{name}</p>
-      <ul className={styles.stack}>
-        {ordered.map((node) => (
-          <li key={node.title} className={styles.node}>
-            <span className={styles.nodeTitle}>{node.title}</span>
-            <span className={styles.nodeNote}>{node.note}</span>
-          </li>
-        ))}
+    <div className={styles.site}>
+      <p className={styles.letter} aria-hidden="true">
+        {letter}
+      </p>
+      <p className={styles.siteName}>Офис {letter}</p>
+      <ul className={styles.parts}>
+        <li>
+          <span className="label">LAN {letter}</span>
+          <span>своя подсеть</span>
+        </li>
+        <li>
+          <span className="label">Роутер</span>
+          <span>OpenWrt · Cudy WR3000S</span>
+        </li>
       </ul>
     </div>
   )
 }
 
+/** Упрощённая топология: две условные площадки и прямой туннель между роутерами. */
 export function OfficeNetworkDiagram() {
   return (
     <figure className={styles.figure}>
-      <div className={styles.network}>
-        <Office name="Офис A" lan="LAN A" />
+      <div className={styles.topology}>
+        <Site letter="A" />
         <div className={styles.link}>
-          <span className={styles.linkLine} aria-hidden="true" />
-          <span className={styles.linkLabel}>WireGuard site-to-site, напрямую между роутерами</span>
+          <span className={styles.line} aria-hidden="true" />
+          <p className={styles.linkTitle}>WireGuard</p>
+          <p className="label">site-to-site · напрямую между роутерами · вместо PPTP</p>
         </div>
-        <Office name="Офис B" lan="LAN B" reversed />
+        <Site letter="B" />
       </div>
-      <p className={styles.aside}>Администрирование роутеров — через отдельный WireGuard-туннель.</p>
+      <p className={styles.admin}>
+        <span className={styles.adminLine} aria-hidden="true" />
+        Администрирование роутеров — через отдельный WireGuard-туннель
+      </p>
       <figcaption className={styles.caption}>
-        Упрощённая иллюстрация. «Офис A» и «Офис B» — условные обозначения; реальные адреса и конфигурации не
+        Упрощённая иллюстрация. «Офис A» и «Офис B» — условные обозначения; реальные адреса, ключи и конфигурации не
         показаны.
       </figcaption>
     </figure>

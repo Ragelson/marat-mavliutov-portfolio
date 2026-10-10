@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import type { Project } from '../types/project.ts'
-import { getAvailableCategories, getPublishedProjectBySlug, getPublishedProjects } from './projects.ts'
+import {
+  getFeaturedProjects,
+  getNextPublishedProject,
+  getOtherProjects,
+  getPublishedProjectBySlug,
+  getPublishedProjects,
+} from './projects.ts'
 
 function makeProject(overrides: Partial<Project> & Pick<Project, 'slug'>): Project {
   return {
@@ -15,22 +21,27 @@ function makeProject(overrides: Partial<Project> & Pick<Project, 'slug'>): Proje
 }
 
 const fixtures: Project[] = [
-  makeProject({ slug: 'regular', categories: ['infrastructure'] }),
-  makeProject({ slug: 'hidden', categories: ['docs'], publicationStatus: 'draft' }),
-  makeProject({ slug: 'main', categories: ['ai'], featured: true }),
+  makeProject({ slug: 'main', featured: true }),
+  makeProject({ slug: 'regular' }),
+  makeProject({ slug: 'mentioned', publicationStatus: 'listed' }),
+  makeProject({ slug: 'hidden', publicationStatus: 'draft', featured: true }),
 ]
 
 describe('выборка проектов', () => {
-  it('не включает draft-проекты и ставит приоритетные первыми', () => {
+  it('страницы кейсов есть только у published', () => {
     expect(getPublishedProjects(fixtures).map((p) => p.slug)).toEqual(['main', 'regular'])
-  })
-
-  it('не находит draft-проект по slug', () => {
     expect(getPublishedProjectBySlug('hidden', fixtures)).toBeUndefined()
+    expect(getPublishedProjectBySlug('mentioned', fixtures)).toBeUndefined()
     expect(getPublishedProjectBySlug('regular', fixtures)?.slug).toBe('regular')
   })
 
-  it('не показывает категории без опубликованных проектов', () => {
-    expect(getAvailableCategories(getPublishedProjects(fixtures))).toEqual(['infrastructure', 'ai'])
+  it('draft не попадает ни в избранное, ни в другие работы', () => {
+    expect(getFeaturedProjects(fixtures).map((p) => p.slug)).toEqual(['main'])
+    expect(getOtherProjects(fixtures).map((p) => p.slug)).toEqual(['regular', 'mentioned'])
+  })
+
+  it('следующий кейс идёт по кругу', () => {
+    expect(getNextPublishedProject('main', fixtures)?.slug).toBe('regular')
+    expect(getNextPublishedProject('regular', fixtures)?.slug).toBe('main')
   })
 })

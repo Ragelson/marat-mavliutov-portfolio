@@ -17,6 +17,7 @@ body {
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
+  font-kerning: normal;
   -webkit-font-smoothing: antialiased;
   overflow-wrap: break-word;
 }
@@ -26,8 +27,9 @@ h2,
 h3,
 h4 {
   margin: 0;
+  font-weight: 700;
   line-height: var(--leading-tight);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
@@ -35,6 +37,7 @@ p,
 ul,
 ol,
 dl,
+dd,
 figure {
   margin: 0;
 }
@@ -50,13 +53,13 @@ img {
 }
 
 a {
-  color: var(--color-accent);
+  color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
 
 a:hover {
-  color: var(--color-accent-hover);
+  color: var(--color-accent-text);
 }
 
 button {
@@ -67,7 +70,6 @@ button {
 :focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 /* Программный фокус на контейнерах (main, секции) не требует рамки */
@@ -77,14 +79,107 @@ button {
 
 /* Секции не прячутся под липкой шапкой при переходе по якорю */
 [id] {
-  scroll-margin-top: calc(var(--header-height) + var(--space-4));
+  scroll-margin-top: var(--header-height);
 }
+
+::selection {
+  background: var(--orange);
+  color: var(--graphite);
+}
+
+/* ——— Поверхности: переопределяют токены внутри секции ——— */
+
+.surface-base,
+.surface-inverse,
+.surface-accent {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Тёмная панель. В светлой теме — графит, в тёмной — приподнятый графит */
+.surface-inverse {
+  --color-bg: var(--graphite);
+  --color-raised: var(--graphite-raised);
+  --color-text: var(--paper);
+  --color-muted: #a19d94;
+  --color-line: rgb(241 239 232 / 0.16);
+  --color-line-strong: var(--paper);
+  --color-accent-text: var(--orange);
+  --color-focus: var(--orange);
+  --grid-line: rgb(241 239 232 / 0.05);
+}
+
+:root[data-theme='dark'] .surface-inverse {
+  --color-bg: var(--graphite-raised);
+  --color-raised: #24252a;
+  --color-muted: #a8a49b;
+}
+
+/* Оранжевая поверхность: только тёмный текст */
+.surface-accent {
+  --color-bg: var(--orange);
+  --color-raised: #ff7d4d;
+  --color-text: var(--graphite);
+  --color-muted: #3a1d10;
+  --color-line: rgb(17 18 20 / 0.28);
+  --color-line-strong: var(--graphite);
+  --color-accent-text: var(--graphite);
+  --color-focus: var(--graphite);
+  --grid-line: rgb(17 18 20 / 0.08);
+}
+
+/* Тонкая техническая сетка — фон для схем */
+.blueprint {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  background-position: -1px -1px;
+}
+
+/* ——— Утилиты ——— */
 
 .container {
   width: 100%;
-  max-width: calc(var(--container-width) + 2 * var(--gutter));
+  max-width: calc(var(--page-width) + 2 * var(--gutter));
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+/* Моноширинная техническая подпись: номера, метаданные */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Ссылка со стрелкой: стрелка сдвигается при наведении */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.arrow-link svg {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.arrow-link:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.arrow-link:hover svg {
+  transform: translateX(0.25em);
 }
 
 /* Скрыть визуально, оставить для скринридеров */
@@ -100,52 +195,46 @@ button {
   border: 0;
 }
 
+/* ——— Движение ——— */
+
+/* Короткое появление элементов первого экрана; --i задаёт очередь */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+.intro-item {
+  animation: rise var(--duration-slow) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/*
+ * Мягкое появление крупных блоков при прокрутке — только CSS (scroll-driven animations).
+ * Браузеры без поддержки просто показывают блоки сразу: содержимое не зависит от анимации.
+ */
+@keyframes settle {
+  from {
+    opacity: 0.25;
+    transform: translateY(2rem);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: settle linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Общие кнопки-ссылки: используются в нескольких компонентах */
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: 2.75rem;
-  padding: var(--space-2) var(--space-5);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--color-text);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background-color var(--duration-fast) var(--easing),
-    border-color var(--duration-fast) var(--easing),
-    color var(--duration-fast) var(--easing);
-}
-
-.button:hover {
-  border-color: var(--color-text);
-  color: var(--color-text);
-}
-
-.button-primary {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: var(--color-accent-contrast);
-}
-
-.button-primary:hover {
-  border-color: var(--color-accent-hover);
-  background: var(--color-accent-hover);
-  color: var(--color-accent-contrast);
 }

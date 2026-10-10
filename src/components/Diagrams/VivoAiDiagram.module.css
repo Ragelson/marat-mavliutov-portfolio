@@ -1,0 +1,161 @@
+.figure {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.perimeter {
+  position: relative;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  border: 1.5px dashed var(--color-line-strong);
+}
+
+.zoneLabel {
+  position: absolute;
+  top: calc(-0.5lh - 1px);
+  left: var(--space-3);
+  padding-inline: var(--space-2);
+  background: var(--color-bg);
+}
+
+.chain {
+  display: grid;
+  gap: var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.node {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border: 1.5px solid var(--color-line-strong);
+  background: var(--color-bg);
+}
+
+/* Узлы собственной разработки выделены заливкой — легенда в подписи */
+.node[data-own='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.node[data-own='true'] .note,
+.node[data-own='true'] .index {
+  color: var(--color-on-accent);
+}
+
+/* Соединения между шагами: линия со стрелкой — только оформление */
+.chain .node + .node::before {
+  content: '';
+  position: absolute;
+  left: 1.75rem;
+  top: calc(-1 * var(--space-6) - 1.5px);
+  width: 2px;
+  height: var(--space-6);
+  background: var(--color-accent);
+}
+
+.chain .node + .node::after {
+  content: '';
+  position: absolute;
+  left: calc(1.75rem - 5px);
+  top: -9px;
+  border: 6px solid transparent;
+  border-top: 7px solid var(--color-accent);
+  border-bottom: 0;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+.title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: var(--leading-snug);
+}
+
+.note {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.external {
+  position: relative;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  border: 1.5px dashed var(--color-line);
+}
+
+/* Пунктир от локального контура к внешним вызовам */
+.external::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--space-5) - 1.5px);
+  height: var(--space-5);
+  border-left: 2px dashed var(--color-line-strong);
+}
+
+.externalList {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.externalList .node {
+  border-style: dashed;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.legend {
+  flex-shrink: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--color-accent);
+}
+
+@media (min-width: 64rem) {
+  .chain {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .chain .node + .node::before {
+    left: calc(-1 * var(--space-5) - 1.5px);
+    top: 2rem;
+    width: var(--space-5);
+    height: 2px;
+  }
+
+  .chain .node + .node::after {
+    left: -9px;
+    top: calc(2rem - 5px);
+    border: 6px solid transparent;
+    border-left: 7px solid var(--color-accent);
+    border-right: 0;
+  }
+
+  .external {
+    justify-self: end;
+    width: min(100%, 36rem);
+  }
+
+  .externalList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -7,8 +7,12 @@
   border: 0;
   background: none;
   cursor: pointer;
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 .toggle:hover {
@@ -30,30 +34,30 @@
   display: inline-block;
   width: 2.75rem;
   height: 1.5rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  background: var(--color-surface-muted);
+  border: 1.5px solid var(--color-line-strong);
 }
 
+/* Состояние видно по положению и иконке, а не только по цвету */
 .thumb {
   position: absolute;
   top: 2px;
   left: 2px;
   display: grid;
   place-items: center;
-  width: calc(1.5rem - 6px);
-  height: calc(1.5rem - 6px);
-  border-radius: 50%;
+  width: calc(1.5rem - 7px);
+  height: calc(1.5rem - 7px);
   background: var(--color-text);
   color: var(--color-bg);
-  transition: transform var(--duration-fast) var(--easing);
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .toggle[aria-checked='true'] .thumb {
   transform: translateX(1.25rem);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 72rem) {
   .label {
     position: static;
     width: auto;

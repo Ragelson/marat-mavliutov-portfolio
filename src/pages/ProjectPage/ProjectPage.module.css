@@ -1,82 +1,136 @@
 .page {
   display: grid;
-  justify-items: start;
-  gap: var(--space-7);
-  padding-block: var(--space-6) var(--space-4);
 }
 
-.page > * {
-  width: 100%;
-}
-
-.page > a {
-  width: auto;
+/* ——— Шапка кейса ——— */
+.header {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-6) var(--space-8);
 }
 
 .back {
+  justify-self: start;
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-weight: 600;
 }
 
-.header {
-  display: grid;
-  gap: var(--space-5);
+.back:hover svg {
+  transform: translateX(-0.25em);
 }
 
 .title {
-  font-size: var(--text-3xl);
-  letter-spacing: -0.03em;
+  font-size: clamp(3rem, 1rem + 9vw, 11rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
 }
 
-.summary {
-  max-width: var(--reading-width);
-  font-size: var(--text-lg);
-  color: var(--color-text-muted);
+.lead {
+  max-width: 36ch;
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
 }
 
 .facts {
   display: grid;
   gap: var(--space-4);
-  padding-block: var(--space-4);
-  border-block: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+  border-top: 2px solid var(--color-line-strong);
 }
 
-.fact dt {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-text-muted);
+.fact {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
 }
 
 .fact dd {
-  margin: 0;
   font-weight: 600;
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 64rem) {
+  .header {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-5);
+  }
+
+  .header > * {
+    grid-column: 1 / -1;
+  }
+
+  .lead {
+    grid-column: 1 / span 8;
+  }
+
   .facts {
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--space-5);
+  }
+
+  /* Стек — самый длинный пункт, ему отдаётся вся строка */
+  .fact:last-child {
+    grid-column: 1 / -1;
   }
 }
 
-.sections {
+/* ——— Крупный визуальный материал шире текстовой колонки ——— */
+.visualBand {
+  padding-block: var(--space-7);
+}
+
+.figure {
   display: grid;
-  gap: var(--space-7);
+  gap: var(--space-2);
+}
+
+.figure img {
+  width: 100%;
+  border: 1.5px solid var(--color-line-strong);
+}
+
+/* ——— Разделы ——— */
+.sections {
+  padding-block: var(--space-6) var(--space-8);
 }
 
 .decisions {
   display: grid;
-  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+  counter-reset: decision;
 }
 
-.decision dt {
+.decisions li {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--color-line);
+  counter-increment: decision;
+}
+
+.decisionTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: var(--text-lg);
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.decision dd {
-  margin: var(--space-1) 0 0;
-  color: var(--color-text-muted);
+.decisionTitle::before {
+  content: counter(decision, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-accent-text);
+}
+
+.decisions p {
+  color: var(--color-muted);
 }
 
 .links {
@@ -84,20 +138,48 @@
   gap: var(--space-2);
   padding: 0;
   list-style: none;
+  font-size: var(--text-lg);
   overflow-wrap: anywhere;
 }
 
-.image {
+/* ——— Переход к следующей работе ——— */
+.next {
+  padding-block: var(--space-8);
+}
+
+.nextInner {
+  display: grid;
+  gap: var(--space-6);
+  justify-items: start;
+}
+
+.nextLink {
   display: grid;
   gap: var(--space-2);
+  text-decoration: none;
 }
 
-.image img {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+.nextTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
 }
 
-.image figcaption {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
+.nextTitle svg {
+  width: 0.7em;
+  height: 0.7em;
+  color: var(--color-accent);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.nextLink:hover {
+  color: var(--color-text);
+}
+
+.nextLink:hover .nextTitle svg {
+  transform: translateX(0.15em);
 }

@@ -3,15 +3,23 @@ import type { TextBlock } from '../../types/project.ts'
 import styles from './CaseSection.module.css'
 
 interface CaseSectionProps {
+  number: number
   title: string
+  /** callout — крупный текст (результат), aside — приглушённая выноска (ограничения решения). */
+  tone?: 'default' | 'callout' | 'aside'
   children: ReactNode
 }
 
-/** Раздел кейса с заголовком второго уровня. */
-export function CaseSection({ title, children }: CaseSectionProps) {
+/** Раздел кейса: номер и заголовок слева, текст в колонке комфортной ширины. */
+export function CaseSection({ number, title, tone = 'default', children }: CaseSectionProps) {
   return (
-    <section className={styles.section}>
-      <h2 className={styles.title}>{title}</h2>
+    <section className={styles.section} data-tone={tone}>
+      <h2 className={styles.title}>
+        <span className={styles.number} aria-hidden="true">
+          {String(number).padStart(2, '0')}
+        </span>
+        {title}
+      </h2>
       <div className={styles.body}>{children}</div>
     </section>
   )

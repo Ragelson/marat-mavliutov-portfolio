@@ -1,4 +1,4 @@
-/** Направление проекта. По нему работают фильтр и будущие страницы /frontend, /infrastructure, /ai. */
+/** Направление проекта. По нему можно будет собрать страницы /frontend, /infrastructure, /ai. */
 export type ProjectCategory = 'frontend' | 'infrastructure' | 'ai' | 'docs'
 
 /** Тип проекта — указываем, только если он известен. */
@@ -8,10 +8,13 @@ export type ProjectKind = 'commercial' | 'educational'
 export type ProjectStatus = 'in-development' | 'completed'
 
 /**
- * Публикация на сайте: draft-проекты не показываются в интерфейсе и не открываются по ссылке.
- * Внимание: данные draft-проектов всё равно попадают в сборку — не храните в них секреты.
+ * Публикация на сайте:
+ * - published — карточка на главной и страница кейса /projects/<slug>;
+ * - listed — строка в списке «Другие работы» на главной, без страницы кейса (материалов пока мало);
+ * - draft — нигде не показывается.
+ * Внимание: данные всех проектов попадают в сборку — не храните в них секреты.
  */
-export type PublicationStatus = 'draft' | 'published'
+export type PublicationStatus = 'draft' | 'listed' | 'published'
 
 /** Простой текстовый блок кейса: абзацы и/или маркированный список. */
 export interface TextBlock {
@@ -41,7 +44,7 @@ export interface ProjectImage {
 }
 
 /** Оригинальные схемы, которые нарисованы компонентами (см. src/components/Diagrams). */
-export type DiagramId = 'vivoai-flow' | 'office-network'
+export type DiagramId = 'vinc-architecture' | 'vivoai-flow' | 'office-network'
 
 /** Разделы подробного кейса. Любой раздел можно не заполнять — тогда он не выводится. */
 export interface ProjectCase {
@@ -56,12 +59,16 @@ export interface ProjectCase {
 export interface Project {
   slug: string
   title: string
-  /** Кратко: задача и мой вклад. Используется в карточке и в начале кейса. */
+  /** Кратко: задача и мой вклад. Используется на главной и в начале кейса. */
   summary: string
+  /** Тип работы одной фразой, например «Доработка сайта на 1С-Битрикс». */
+  workType?: string
+  /** 2–3 конкретных пункта для избранного проекта на главной. */
+  highlights?: string[]
   categories: ProjectCategory[]
-  /** Технологии в порядке важности: в карточке показываются первые несколько. */
+  /** Технологии в порядке важности. */
   stack: string[]
-  /** Приоритетный проект — выводится раньше остальных. */
+  /** Избранный проект: отдельная крупная композиция на главной (только для published). */
   featured: boolean
   publicationStatus: PublicationStatus
   kind?: ProjectKind

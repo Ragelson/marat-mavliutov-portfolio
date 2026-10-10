@@ -1,0 +1,190 @@
+.hero {
+  /* Не жёсткая высота: на высоких экранах обложка заполняет окно, на низких — растёт по содержимому */
+  min-height: min(calc(100svh - var(--header-height)), 64rem);
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-5);
+  padding-block: var(--space-5);
+}
+
+.kicker {
+  color: var(--color-muted);
+}
+
+/* ——— Имя ——— */
+.name {
+  display: grid;
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: var(--leading-display);
+  letter-spacing: -0.055em;
+  text-wrap: nowrap;
+}
+
+/* Вторая строка смещена — асимметрия вместо центровки */
+.last {
+  justify-self: end;
+}
+
+.last::after {
+  content: '';
+  display: inline-block;
+  width: 0.14em;
+  height: 0.14em;
+  margin-left: 0.04em;
+  background: var(--color-accent);
+}
+
+/* ——— Направления ——— */
+.directions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.directions li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.number {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-text);
+}
+
+.intro {
+  max-width: 40ch;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+/* ——— Главная ссылка: оранжевый блок с тёмным текстом ——— */
+.cta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 6rem;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.cta svg {
+  width: 2.25rem;
+  height: 2.25rem;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.cta:hover {
+  color: var(--color-on-accent);
+}
+
+.cta:hover svg {
+  transform: translate(0.2rem, 0.2rem);
+}
+
+.cta:focus-visible {
+  outline-color: var(--color-text);
+}
+
+/* ——— Индекс избранных работ ——— */
+.index {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--color-line-strong);
+}
+
+.indexList {
+  display: grid;
+  padding: 0;
+  list-style: none;
+}
+
+.indexLink {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0 var(--space-3);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-line);
+  text-decoration: none;
+}
+
+.indexTitle {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.indexMeta {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.indexLink:hover .indexTitle {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+}
+
+/* ——— Десктоп: 12-колоночная обложка ——— */
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-5);
+    row-gap: var(--space-5);
+  }
+
+  .kicker,
+  .name,
+  .index {
+    grid-column: 1 / -1;
+  }
+
+  .directions {
+    grid-column: 1 / span 4;
+    flex-direction: column;
+    align-self: end;
+  }
+
+  .intro {
+    grid-column: 5 / span 4;
+    align-self: end;
+  }
+
+  .cta {
+    grid-column: 9 / -1;
+    align-self: end;
+    min-height: 7rem;
+  }
+
+  .indexList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--space-5);
+  }
+
+  .indexLink {
+    border-bottom: 0;
+  }
+}

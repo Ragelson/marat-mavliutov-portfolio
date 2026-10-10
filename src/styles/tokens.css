@@ -1,24 +1,29 @@
 /*
- * Дизайн-токены. Компоненты используют только эти переменные,
- * поэтому смена темы — это смена значений на <html data-theme="...">.
+ * Дизайн-токены. Компоненты используют только переменные, поэтому:
+ * - тема — это значения на <html data-theme="...">;
+ * - «поверхность» (тёмная панель, оранжевый финал) — это те же переменные, переопределённые
+ *   внутри секции классами .surface-inverse и .surface-accent (см. globals.css).
  */
 :root {
-  /* Типографика: системные шрифты с кириллицей, без загрузки извне */
-  --font-sans: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Roboto, 'Noto Sans', Arial, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace;
+  /* Шрифты лежат в проекте (@fontsource-variable, лицензия OFL), системные — запасной вариант */
+  --font-sans: 'Onest Variable', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 
-  --text-xs: 0.8125rem;
-  --text-sm: 0.9375rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
   --text-base: 1.0625rem;
   --text-lg: 1.25rem;
-  --text-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
-  --text-2xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
-  --text-3xl: clamp(2.25rem, 1.5rem + 3.2vw, 4rem);
+  --text-xl: clamp(1.375rem, 1rem + 1.2vw, 1.875rem);
+  --text-2xl: clamp(1.875rem, 1.2rem + 2.6vw, 3.25rem);
+  --text-3xl: clamp(2.5rem, 1.1rem + 5.6vw, 6.25rem);
+  /* Имя на первом экране: на десктопе занимает большую часть ширины */
+  --text-display: clamp(3.5rem, 16.4vw, 15rem);
 
-  --leading-tight: 1.15;
+  --leading-display: 0.9;
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
   --leading-normal: 1.6;
 
-  /* Отступы */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -27,57 +32,56 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4.5rem;
-  --space-9: 6rem;
+  --space-9: clamp(4.5rem, 3rem + 6vw, 9rem);
 
-  /* Сетка */
-  --container-width: 72rem;
-  --gutter: 1rem;
-  --reading-width: 42rem;
+  --page-width: 90rem;
+  --gutter: clamp(1rem, 3.5vw, 3rem);
+  /* Примерно 65–75 знаков в строке для основного текста */
+  --measure: 68ch;
   --header-height: 4rem;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --duration-fast: 180ms;
+  --duration-slow: 520ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --duration-fast: 150ms;
-  --easing: cubic-bezier(0.2, 0, 0, 1);
+  /* Исходная палитра */
+  --graphite: #111214;
+  --graphite-raised: #1b1c20;
+  --paper: #f1efe8;
+  --paper-raised: #e7e4da;
+  --orange: #ff6b35;
 }
 
-@media (min-width: 48rem) {
-  :root {
-    --gutter: 2rem;
-  }
-}
-
-/* Светлая тема — по умолчанию */
+/* Светлая тема: тёплый светлый фон, графитовый текст, оранжевый — заливки и крупные элементы */
 :root,
 :root[data-theme='light'] {
   color-scheme: light;
-  --color-bg: #f6f5f1;
-  --color-surface: #ffffff;
-  --color-surface-muted: #eeece6;
-  --color-text: #1b1c1a;
-  --color-text-muted: #53554f;
-  --color-border: #dcd9d0;
-  --color-border-strong: #8f8b80;
-  --color-accent: #0b6457;
-  --color-accent-hover: #084b41;
-  --color-accent-contrast: #ffffff;
-  --color-accent-soft: #e1eeeb;
-  --color-focus: #0b6457;
+  --color-bg: var(--paper);
+  --color-raised: var(--paper-raised);
+  --color-text: var(--graphite);
+  --color-muted: #57544c;
+  --color-line: rgb(17 18 20 / 0.16);
+  --color-line-strong: var(--graphite);
+  /* Оранжевый текст на светлом фоне не проходит контраст — для текста он темнее */
+  --color-accent: var(--orange);
+  --color-accent-text: #a8390c;
+  --color-on-accent: var(--graphite);
+  --color-focus: var(--graphite);
+  --grid-line: rgb(17 18 20 / 0.06);
 }
 
+/* Тёмная тема: не инверсия светлой — графит, приподнятые панели и яркий оранжевый для текста */
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --color-bg: #141614;
-  --color-surface: #1b1e1c;
-  --color-surface-muted: #232724;
-  --color-text: #e9eae5;
-  --color-text-muted: #a8aca5;
-  --color-border: #313632;
-  --color-border-strong: #6c736d;
-  --color-accent: #5fc4b0;
-  --color-accent-hover: #8ad8c8;
-  --color-accent-contrast: #0c1a17;
-  --color-accent-soft: #1b3430;
-  --color-focus: #5fc4b0;
+  --color-bg: var(--graphite);
+  --color-raised: var(--graphite-raised);
+  --color-text: var(--paper);
+  --color-muted: #a19d94;
+  --color-line: rgb(241 239 232 / 0.14);
+  --color-line-strong: var(--paper);
+  --color-accent: var(--orange);
+  --color-accent-text: var(--orange);
+  --color-on-accent: var(--graphite);
+  --color-focus: var(--orange);
+  --grid-line: rgb(241 239 232 / 0.05);
 }
