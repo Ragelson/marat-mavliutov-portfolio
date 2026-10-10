@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { site } from '../config/site.ts'
+import { formatPageTitle } from '../lib/meta.ts'
 
 interface DocumentMeta {
   /** Заголовок страницы без имени сайта; для главной не передаётся. */
   title?: string
   description?: string
-  /** Путь страницы для canonical, например "/projects/vivoai". */
-  path: string
+  /** Путь страницы для canonical, например "/projects/vivoai". Без пути canonical убирается (страница 404). */
+  path?: string
 }
 
 function setMetaContent(selector: string, content: string) {
@@ -14,20 +15,22 @@ function setMetaContent(selector: string, content: string) {
 }
 
 /**
- * Обновляет title, description и canonical в браузере.
- * Это помогает вкладкам, истории и скринридерам, но не создаёт отдельные превью для мессенджеров:
- * они читают исходный HTML без выполнения JavaScript (см. README, «Ограничения SPA»).
+ * Обновляет title, description и canonical при переходах внутри сайта.
+ * При первой загрузке те же значения уже есть в HTML: их подставляет сборка (vite-plugins/site-meta.ts).
  */
 export function useDocumentMeta({ title, description = site.description, path }: DocumentMeta) {
-  const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.headline}`
+  const fullTitle = formatPageTitle(title)
 
   useEffect(() => {
     document.title = fullTitle
     setMetaContent('meta[name="description"]', description)
 
-    // canonical появляется, только когда в конфиге указан реальный production-адрес
-    if (!site.url) return
     let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    // canonical нужен, только когда в конфиге указан реальный адрес сайта
+    if (!site.url || path === undefined) {
+      canonical?.remove()
+      return
+    }
     if (!canonical) {
       canonical = document.createElement('link')
       canonical.rel = 'canonical'

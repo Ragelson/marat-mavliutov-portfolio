@@ -3,7 +3,7 @@ import { useDocumentMeta } from '../../hooks/useDocumentMeta.ts'
 import styles from './NotFoundPage.module.css'
 
 export function NotFoundPage() {
-  useDocumentMeta({ title: 'Страница не найдена', path: '/404' })
+  useDocumentMeta({ title: 'Страница не найдена' })
 
   return (
     <div className={`container ${styles.page}`}>

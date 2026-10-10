@@ -20,7 +20,10 @@ export interface SiteConfig {
   intro: string
   /** Описание для meta description и Open Graph. */
   description: string
-  /** Production-адрес без завершающего слэша, например "https://example.com". Пока неизвестен. */
+  /**
+   * Адрес опубликованного сайта без завершающего слэша. Нужен для canonical, og:url и sitemap.xml.
+   * При переезде на свой домен поменяйте его здесь.
+   */
   url?: string
   contacts: Contacts
 }
@@ -34,6 +37,7 @@ export const site: SiteConfig = {
     'Создаю веб-интерфейсы, разворачиваю локальные ИИ-сервисы и настраиваю сети. Работаю на стыке направлений: от пользовательского интерфейса и данных до серверного окружения и документации.',
   description:
     'Марат Мавлютов — портфолио: веб-интерфейсы, сети и инфраструктура, локальные ИИ-системы и интеграции.',
+  url: 'https://ragelson.github.io/marat-mavliutov-portfolio',
   contacts: {
     github: 'https://github.com/Ragelson',
   },

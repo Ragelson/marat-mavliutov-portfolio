@@ -10,7 +10,8 @@ if (!root) throw new Error('Не найден элемент #root в index.html
 
 createRoot(root).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* base из vite.config.ts: "/" локально, "/marat-mavliutov-portfolio/" на GitHub Pages */}
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <App />
     </BrowserRouter>
   </StrictMode>,

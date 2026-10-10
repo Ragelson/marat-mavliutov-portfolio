@@ -12,6 +12,7 @@ import {
   projectKindLabels,
   projectStatusLabels,
 } from '../../lib/projects.ts'
+import { publicUrl } from '../../lib/publicUrl.ts'
 import type { Project } from '../../types/project.ts'
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage.tsx'
 import styles from './ProjectPage.module.css'
@@ -114,7 +115,8 @@ function ProjectCase({ project }: { project: Project }) {
           <CaseSection title="Изображения">
             {project.images.map((image) => (
               <figure key={image.src} className={styles.image}>
-                <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+                <img
+                  src={publicUrl(image.src)} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
                 {image.caption && <figcaption>{image.caption}</figcaption>}
               </figure>
             ))}
