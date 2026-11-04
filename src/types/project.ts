@@ -1,5 +1,5 @@
-/** Направление проекта. По нему можно будет собрать страницы /frontend, /infrastructure, /ai. */
-export type ProjectCategory = 'frontend' | 'infrastructure' | 'ai' | 'docs'
+/** Направление проекта. По нему можно будет собрать страницы /ai, /infrastructure и другие. */
+export type ProjectCategory = 'ai' | 'infrastructure' | 'automation' | 'frontend' | 'docs'
 
 /** Тип проекта — указываем, только если он известен. */
 export type ProjectKind = 'commercial' | 'educational'
@@ -28,6 +28,12 @@ export interface Decision {
   reason: string
 }
 
+/** Подтверждённый показатель проекта: крупное значение и подпись к нему. */
+export interface Metric {
+  value: string
+  label: string
+}
+
 export interface ProjectLink {
   label: string
   url: string
@@ -44,7 +50,7 @@ export interface ProjectImage {
 }
 
 /** Оригинальные схемы, которые нарисованы компонентами (см. src/components/Diagrams). */
-export type DiagramId = 'vinc-architecture' | 'vivoai-flow' | 'office-network'
+export type DiagramId = 'vivox-flow' | 'office-network' | 'bots-flow' | 'admin-resilience' | 'vinc-architecture'
 
 /** Разделы подробного кейса. Любой раздел можно не заполнять — тогда он не выводится. */
 export interface ProjectCase {
@@ -74,6 +80,8 @@ export interface Project {
   kind?: ProjectKind
   projectStatus?: ProjectStatus
   role?: string
+  /** Текущие показатели проекта. Только подтверждённые цифры: в подписи честно указан источник оценки. */
+  metrics?: Metric[]
   case?: ProjectCase
   diagram?: DiagramId
   links?: ProjectLink[]

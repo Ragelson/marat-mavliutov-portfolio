@@ -164,21 +164,27 @@
     grid-column: 9 / -1;
   }
 
-  /* VivoAI и сеть: текст в две колонки сверху, схема — во всю ширину */
-  [data-variant='vivoai-flow'] .head,
+  /* Схемы во всю ширину: текст в две колонки сверху, схема под ним */
+  [data-variant='vivox-flow'] .head,
   [data-variant='office-network'] .head,
+  [data-variant='bots-flow'] .head,
+  [data-variant='admin-resilience'] .head,
   [data-variant='text'] .head {
     grid-column: 1 / span 6;
   }
 
-  [data-variant='vivoai-flow'] .body,
+  [data-variant='vivox-flow'] .body,
   [data-variant='office-network'] .body,
+  [data-variant='bots-flow'] .body,
+  [data-variant='admin-resilience'] .body,
   [data-variant='text'] .body {
     grid-column: 8 / -1;
   }
 
-  [data-variant='vivoai-flow'] .visual,
-  [data-variant='office-network'] .visual {
+  [data-variant='vivox-flow'] .visual,
+  [data-variant='office-network'] .visual,
+  [data-variant='bots-flow'] .visual,
+  [data-variant='admin-resilience'] .visual {
     grid-column: 1 / -1;
   }
 

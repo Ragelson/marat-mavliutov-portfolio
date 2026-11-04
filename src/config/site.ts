@@ -11,6 +11,14 @@ export interface Contacts {
   linkedin?: string
 }
 
+/** Короткие факты о работе для первого экрана. Пустые поля не выводятся. */
+export interface Availability {
+  status?: string
+  format?: string
+  timezone?: string
+  languages?: string
+}
+
 export interface SiteConfig {
   name: string
   /** Публичный ник: небольшая дополнительная подпись, не замена имени. */
@@ -25,20 +33,28 @@ export interface SiteConfig {
    * При переезде на свой домен поменяйте его здесь.
    */
   url?: string
+  availability: Availability
   contacts: Contacts
 }
 
 export const site: SiteConfig = {
   name: 'Марат Мавлютов',
-  handle: 'delure',
-  location: 'Уфа, Россия',
-  headline: 'Разработка, инфраструктура и ИИ-интеграции',
+  handle: 'Ragelson',
+  location: 'Астана, Казахстан',
+  headline: 'Инженер AI-инфраструктуры и безопасности',
   intro:
-    'Создаю веб-интерфейсы, разворачиваю локальные ИИ-сервисы и настраиваю сети. Работаю на стыке направлений: от пользовательского интерфейса и данных до серверного окружения и документации.',
+    'Строю и сопровождаю on-prem ИИ-инфраструктуру и сети: от сервера инференса и агентного Pipe до VPN и Telegram-ботов. Работаю через Claude Code: задачу ставлю и результат проверяю сам, решения о доступах и данных принимаю сам.',
   description:
-    'Марат Мавлютов — портфолио: веб-интерфейсы, сети и инфраструктура, локальные ИИ-системы и интеграции.',
+    'Марат Мавлютов — портфолио: on-prem ИИ-инфраструктура (vLLM, Open WebUI, PostgreSQL), Linux и Docker, сети и безопасность, Telegram-боты.',
   url: 'https://ragelson.github.io/marat-mavliutov-portfolio',
+  availability: {
+    status: 'Открыт к предложениям',
+    format: 'Полностью удалённо, полная занятость',
+    timezone: 'UTC+5',
+    languages: 'Русский — родной · Английский — B1',
+  },
   contacts: {
     github: 'https://github.com/Ragelson',
+    email: 'hallblur@gmail.com',
   },
 }

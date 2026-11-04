@@ -17,11 +17,22 @@
   background: var(--color-bg);
 }
 
-.chain {
+.chain,
+.row {
   display: grid;
   gap: var(--space-6);
   padding: 0;
   list-style: none;
+}
+
+/* Подпись ряда: ряды внутри периметра идут друг под другом */
+.rowLabel {
+  padding-top: var(--space-5);
+}
+
+.row {
+  gap: var(--space-3);
+  padding-top: var(--space-2);
 }
 
 .node {
@@ -131,8 +142,16 @@
 
 @media (min-width: 64rem) {
   .chain {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-5);
+  }
+
+  .row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .services {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .chain .node + .node::before {
@@ -153,9 +172,5 @@
   .external {
     justify-self: end;
     width: min(100%, 36rem);
-  }
-
-  .externalList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

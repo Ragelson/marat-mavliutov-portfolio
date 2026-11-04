@@ -131,6 +131,16 @@ function ProjectCase({ project }: { project: Project }) {
             </div>
           ))}
         </dl>
+        {project.metrics && project.metrics.length > 0 && (
+          <dl className={styles.metrics} aria-label="Текущие показатели">
+            {project.metrics.map((metric) => (
+              <div key={metric.label} className={styles.metric}>
+                <dt className={styles.metricValue}>{metric.value}</dt>
+                <dd className="label">{metric.label}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </header>
 
       {(mainImage || project.diagram) && (
