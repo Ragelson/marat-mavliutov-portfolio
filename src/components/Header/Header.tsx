@@ -8,6 +8,7 @@ import styles from './Header.module.css'
 /** Ссылки ведут на секции главной страницы и поэтому работают с любой страницы сайта. */
 const navItems = [
   { hash: '#work', label: 'Работы' },
+  { hash: '#agents', label: 'Агенты' },
   { hash: '#about', label: 'Обо мне' },
   { hash: '#contacts', label: 'Контакты' },
 ]

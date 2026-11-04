@@ -44,8 +44,9 @@ describe('главная страница', () => {
     }
     const contacts = screen.getByRole('region', { name: 'Есть задача? Обсудим.' })
     const contactLinks = within(contacts).getAllByRole('link')
-    expect(contactLinks).toHaveLength(1)
-    expect(contactLinks[0]).toHaveAccessibleName(/^GitHub/)
-    expect(within(contacts).queryByRole('link', { name: /почт|Telegram|LinkedIn/i })).not.toBeInTheDocument()
+    expect(contactLinks).toHaveLength(2)
+    expect(contactLinks[0]).toHaveAccessibleName(/^Написать на почту/)
+    expect(contactLinks[1]).toHaveAccessibleName(/^GitHub/)
+    expect(within(contacts).queryByRole('link', { name: /Telegram|LinkedIn/i })).not.toBeInTheDocument()
   })
 })

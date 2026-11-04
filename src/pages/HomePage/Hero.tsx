@@ -10,6 +10,14 @@ import styles from './Hero.module.css'
 const featured = getFeaturedProjects()
 const [firstName, lastName] = site.name.split(' ')
 
+/** Факты о работе: выводятся только заполненные (см. Availability в src/config/site.ts). */
+const facts = [
+  { label: 'Статус', value: site.availability.status },
+  { label: 'Формат', value: site.availability.format },
+  { label: 'Часовой пояс', value: site.availability.timezone },
+  { label: 'Языки', value: site.availability.languages },
+].filter((fact): fact is { label: string; value: string } => Boolean(fact.value))
+
 /** Очередь появления элемента первого экрана (см. .intro-item в globals.css). */
 const order = (i: number) => ({ '--i': i }) as CSSProperties
 
@@ -18,7 +26,7 @@ export function Hero() {
     <section className={`surface-base ${styles.hero}`} aria-labelledby="hero-title">
       <div className={`container ${styles.grid}`}>
         <p className={`label intro-item ${styles.kicker}`} style={order(0)}>
-          Портфолио · {site.location}
+          {site.headline} · {site.location}
         </p>
 
         <h1 id="hero-title" className={`intro-item ${styles.name}`} style={order(1)}>
@@ -37,9 +45,19 @@ export function Hero() {
           ))}
         </ul>
 
-        <p className={`intro-item ${styles.intro}`} style={order(3)}>
-          {site.intro}
-        </p>
+        <div className={`intro-item ${styles.lead}`} style={order(3)}>
+          <p className={styles.intro}>{site.intro}</p>
+          {facts.length > 0 && (
+            <dl className={styles.facts}>
+              {facts.map((fact) => (
+                <div key={fact.label} className={styles.fact}>
+                  <dt className="label">{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
 
         <Link to={{ hash: '#work' }} className={`intro-item ${styles.cta}`} style={order(4)}>
           <span>Смотреть работы</span>

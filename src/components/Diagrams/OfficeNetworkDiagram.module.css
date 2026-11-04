@@ -39,7 +39,7 @@
 
 .parts li {
   display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-columns: 4.5rem minmax(0, 1fr);
   align-items: baseline;
   gap: var(--space-3);
   font-weight: 600;
@@ -72,14 +72,16 @@
 
 .admin {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--space-3);
+  max-width: var(--measure);
   font-weight: 600;
 }
 
 .adminLine {
   flex-shrink: 0;
   width: 3rem;
+  margin-top: 0.6em;
   border-top: 2px dashed var(--color-line-strong);
 }
 

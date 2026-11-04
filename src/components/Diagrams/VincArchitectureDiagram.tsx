@@ -8,7 +8,7 @@ const layers = [
     items: ['Календарь', 'Доска задач', 'Окно задачи', 'Заметки', 'Достижения', 'Чаты'],
   },
   { id: 'dto', label: 'DTO', items: ['Task', 'User', 'Sphere', '…'] },
-  { id: 'api', label: 'API-клиент', items: ['GET', 'POST', 'PUT', 'DELETE', 'cookie-сессия', 'XSRF'] },
+  { id: 'api', label: 'API-клиент', items: ['GET', 'POST', 'PUT', 'DELETE', 'cookie-сессия', 'double-submit XSRF'] },
 ]
 
 /** Слои frontend-архитектуры Vinc: от страниц до API-клиента. Backend и оплата — внешние системы. */
@@ -31,10 +31,11 @@ export function VincArchitectureDiagram() {
       </ol>
       <div className={styles.outside}>
         <span className="label">Вне frontend</span>
-        <p>REST API · внешний платёжный провайдер</p>
+        <p>Spring Boot · 66 REST-эндпоинтов · Robokassa и Stripe</p>
       </div>
       <figcaption className={styles.caption}>
-        Упрощённая схема слоёв frontend на Vanilla JS. Интерфейс на двух языках: RU / EN.
+        Упрощённая схема слоёв frontend на Vanilla JS. Один переключатель задаёт язык, юрлицо, документы, валюту и
+        платёжный шлюз: RU / ₽ / Robokassa или EN / $ / Stripe.
       </figcaption>
     </figure>
   )

@@ -29,6 +29,37 @@
   color: var(--color-muted);
 }
 
+/* ——— Привычки безопасности ——— */
+.habits {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.habitsHeading {
+  color: var(--color-accent-text);
+}
+
+.habitsList {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.habitsList li {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: var(--space-2);
+  line-height: var(--leading-snug);
+}
+
+.habitsList li::before {
+  content: '✓';
+  font-family: var(--font-mono);
+  color: var(--color-accent-text);
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -62,6 +93,12 @@
 
   .text {
     grid-column: 6 / -1;
+  }
+
+  /* Привычки безопасности — в левой колонке, напротив основного текста */
+  .habits {
+    grid-column: 1 / span 4;
+    grid-row: 3;
   }
 
   .tags {

@@ -36,7 +36,7 @@ describe('шапка', () => {
   })
 
   it('ссылки навигации ведут на секции главной страницы', () => {
-    renderApp('/projects/vivoai')
+    renderApp('/projects/vivox')
     expect(screen.getByRole('link', { name: 'Работы' })).toHaveAttribute('href', '/#work')
   })
 })
