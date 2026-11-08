@@ -1,0 +1,162 @@
+/* Ширина контейнера нужна, чтобы подобрать размер символа под ширину экрана */
+.frame {
+  container-type: inline-size;
+  overflow: hidden;
+  background: var(--scene-sky);
+}
+
+/*
+ * Символ JetBrains Mono шириной 0.6em: размер подбирается так, чтобы все колонки
+ * поместились в ширину контейнера, но не крупнее 15px.
+ */
+.scene {
+  --char: min(15px, calc(100cqi / (var(--cols) * 0.6)));
+  position: relative;
+  display: grid;
+  justify-content: center;
+  width: max-content;
+  margin-inline: auto;
+  font-family: var(--font-mono);
+  font-size: var(--char);
+  line-height: 1.15;
+}
+
+/* По умолчанию — мобильная упрощённая сцена, с 40rem — широкая */
+.scene[data-variant='wide'] {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .scene[data-variant='wide'] {
+    display: grid;
+  }
+
+  .scene[data-variant='compact'] {
+    display: none;
+  }
+}
+
+/* Все слои лежат в одной ячейке сетки друг над другом */
+.layer {
+  grid-area: 1 / 1;
+  margin: 0;
+  font: inherit;
+  white-space: pre;
+  pointer-events: none;
+  user-select: none;
+  text-shadow: 0 0 5px var(--glow-color);
+}
+
+.layer[data-layer='star'] {
+  color: var(--scene-star);
+}
+
+.layer[data-layer='twinkle'] {
+  color: var(--scene-star);
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+.layer[data-layer='cloud'] {
+  color: var(--scene-cloud);
+  text-shadow: none;
+}
+
+.layer[data-layer='sun'] {
+  color: var(--scene-sun);
+  font-weight: 700;
+  /* Ночью солнце прозрачное — его свечение тоже не должно проступать */
+  text-shadow: none;
+}
+
+.layer[data-layer='far'] {
+  color: var(--scene-far);
+}
+
+.layer[data-layer='near'] {
+  color: var(--scene-near);
+}
+
+.layer[data-layer='snow'] {
+  color: var(--scene-snow);
+}
+
+.layer[data-layer='tree'] {
+  color: var(--scene-tree);
+  font-weight: 700;
+}
+
+.layer[data-layer='trunk'] {
+  color: var(--scene-trunk);
+}
+
+.layer[data-layer='shore'] {
+  color: var(--scene-rock);
+}
+
+.layer[data-layer='water'] {
+  color: var(--scene-water);
+}
+
+.layer[data-layer='echo'] {
+  color: var(--scene-tree);
+  opacity: 0.4;
+}
+
+/* Дорожка света на воде: два варианта сменяют друг друга — отражение мерцает */
+.layer[data-layer='glintA'],
+.layer[data-layer='glintB'] {
+  color: var(--scene-glint);
+  animation: shimmer 2.8s ease-in-out infinite;
+}
+
+.layer[data-layer='glintB'] {
+  animation-delay: -1.4s;
+}
+
+.layer[data-layer='rock'] {
+  color: var(--scene-rock);
+}
+
+.layer[data-layer='grass'] {
+  color: var(--scene-grass);
+}
+
+/* Курсор вместо луны: блок ровно в одну ячейку сетки */
+.cursor {
+  position: absolute;
+  left: calc(var(--light-x) * 0.6em);
+  top: calc(var(--light-y) * 1.15em);
+  width: 0.6em;
+  height: 1.15em;
+  background: var(--scene-cursor);
+  box-shadow:
+    0 0 10px var(--glow-color),
+    0 0 26px var(--glow-color);
+  animation: blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

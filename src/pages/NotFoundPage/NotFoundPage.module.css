@@ -9,14 +9,14 @@
   font-size: clamp(6rem, 2rem + 18vw, 16rem);
   font-weight: 800;
   line-height: 0.85;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
   color: var(--color-accent);
 }
 
 .title {
   font-size: var(--text-3xl);
   font-weight: 800;
-  letter-spacing: -0.05em;
+  letter-spacing: 0;
 }
 
 .text {
@@ -31,4 +31,10 @@
   gap: var(--space-3) var(--space-6);
   margin-top: var(--space-3);
   font-size: var(--text-lg);
+}
+
+.shell {
+  margin-top: calc(-1 * var(--space-4));
+  font-size: var(--text-sm);
+  color: var(--color-muted);
 }

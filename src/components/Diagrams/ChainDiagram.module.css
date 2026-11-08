@@ -61,7 +61,7 @@
 .title {
   font-size: var(--text-lg);
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   line-height: var(--leading-snug);
 }
 

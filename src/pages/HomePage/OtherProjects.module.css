@@ -1,34 +1,58 @@
 .wrapper {
   display: grid;
-  gap: var(--space-5);
-  padding-block: var(--space-8) var(--space-9);
+  gap: var(--space-3);
+  padding-block: var(--space-6) var(--space-8);
 }
 
 .heading {
-  font-size: var(--text-2xl);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-size: var(--text-xl);
+}
+
+.heading::before {
+  content: '### ';
+  color: var(--color-line);
 }
 
 .list {
   padding: 0;
   list-style: none;
-  border-top: 2px solid var(--color-line-strong);
+  border-top: 1px dashed var(--color-line);
 }
 
+/* Строка списка; при наведении — инверсия всей строки */
 .item {
   display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
-  gap: var(--space-2) var(--space-3);
-  padding-block: var(--space-5);
-  border-bottom: 1px solid var(--color-line);
+  grid-template-columns: 4ch minmax(0, 1fr);
+  gap: var(--space-1) 1ch;
+  padding: var(--space-3) 1ch;
+  border-bottom: 1px dashed var(--color-line);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.item:hover,
+.item:focus-within {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.item:hover :global(.label),
+.item:focus-within :global(.label),
+.item:hover .number,
+.item:focus-within .number,
+.item:hover .summary,
+.item:focus-within .summary {
+  color: inherit;
+}
+
+.item a:hover {
+  background: var(--color-on-accent);
+  color: var(--color-accent);
 }
 
 .number {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: 2;
-  color: var(--color-accent-text);
+  color: var(--color-muted);
 }
 
 .titleBlock {
@@ -37,43 +61,43 @@
 }
 
 .title {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: var(--text-lg);
 }
 
 .title a {
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-style: dashed;
 }
 
-/* Учебный статус — заметная плашка, а не мелкая подпись */
+/* Учебный статус — заметная пометка в скобках */
 .kind {
-  display: inline-block;
-  margin-left: var(--space-2);
-  padding: 0 var(--space-2);
-  background: var(--color-text);
-  color: var(--color-bg);
+  margin-left: 1ch;
+  font-weight: 700;
+}
+
+.kind::before {
+  content: '[';
+}
+
+.kind::after {
+  content: ']';
 }
 
 .summary,
 .links {
   grid-column: 2;
-  max-width: 52ch;
+  max-width: 70ch;
+  font-size: var(--text-sm);
 }
 
 .summary {
   color: var(--color-muted);
 }
 
-.links {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}
-
 @media (min-width: 64rem) {
   .item {
-    grid-template-columns: 4rem minmax(0, 5fr) minmax(0, 6fr);
-    column-gap: var(--space-5);
+    grid-template-columns: 4ch minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: 2ch;
     align-items: baseline;
   }
 

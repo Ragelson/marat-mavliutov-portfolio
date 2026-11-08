@@ -40,7 +40,7 @@ export interface SiteConfig {
 export const site: SiteConfig = {
   name: 'Марат Мавлютов',
   handle: 'Ragelson',
-  location: 'Астана, Казахстан',
+  location: 'Россия',
   headline: 'Инженер AI-инфраструктуры и безопасности',
   intro:
     'Строю и сопровождаю on-prem ИИ-инфраструктуру и сети: от сервера инференса и агентного Pipe до VPN и Telegram-ботов. Работаю через Claude Code: задачу ставлю и результат проверяю сам, решения о доступах и данных принимаю сам.',

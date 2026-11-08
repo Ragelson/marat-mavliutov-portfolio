@@ -1,7 +1,6 @@
 import { useRef, type MouseEvent } from 'react'
 import { Outlet } from 'react-router'
 import { useRouteScroll } from '../../hooks/useRouteScroll.ts'
-import { Footer } from '../Footer/Footer.tsx'
 import { Header } from '../Header/Header.tsx'
 import styles from './Layout.module.css'
 
@@ -25,7 +24,6 @@ export function Layout() {
       <main id="main" ref={mainRef} tabIndex={-1} className={styles.main}>
         <Outlet />
       </main>
-      <Footer />
     </div>
   )
 }

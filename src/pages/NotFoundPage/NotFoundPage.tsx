@@ -8,6 +8,13 @@ export function NotFoundPage() {
 
   return (
     <div className={`container ${styles.page}`}>
+      {/* Декоративный вывод терминала; смысл передают заголовок и текст ниже */}
+      <p className="prompt" aria-hidden="true">
+        cd ./page
+      </p>
+      <p className={styles.shell} aria-hidden="true">
+        bash: cd: ./page: No such file or directory
+      </p>
       <p className={styles.code} aria-hidden="true">
         404
       </p>

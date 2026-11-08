@@ -1,28 +1,155 @@
 /*
- * Дизайн-токены. Компоненты используют только переменные, поэтому:
- * - тема — это значения на <html data-theme="...">;
- * - «поверхность» (тёмная панель, оранжевый финал) — это те же переменные, переопределённые
- *   внутри секции классами .surface-inverse и .surface-accent (см. globals.css).
+ * Дизайн-токены «ASCII lines». Компоненты используют только эти переменные.
+ * Тема — значения на <html data-theme="night|day"> (в коде темы называются dark и light).
+ * Цветовые переменные зарегистрированы через @property, поэтому при смене темы
+ * они плавно перетекают: над тем же пейзажем ночь сменяется днём.
  */
+
+@property --color-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #050805;
+}
+@property --color-raised {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0a120b;
+}
+@property --color-text {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --color-muted {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #2fae55;
+}
+@property --color-line {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1f7a3a;
+}
+@property --color-line-strong {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --color-accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --color-accent-text {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --color-on-accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #050805;
+}
+@property --color-focus {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --glow-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --scene-sky {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #050805;
+}
+@property --scene-star {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --scene-cursor {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --scene-sun {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --scene-cloud {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --scene-far {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1f7a3a;
+}
+@property --scene-near {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #2fae55;
+}
+@property --scene-snow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8dffb0;
+}
+@property --scene-tree {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --scene-trunk {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1f7a3a;
+}
+@property --scene-water {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1f7a3a;
+}
+@property --scene-glint {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+@property --scene-rock {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #2fae55;
+}
+@property --scene-grass {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39ff6a;
+}
+
 :root {
-  /* Шрифты лежат в проекте (@fontsource-variable, лицензия OFL), системные — запасной вариант */
-  --font-sans: 'Onest Variable', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+  /* JetBrains Mono лежит в проекте (@fontsource-variable, лицензия OFL), без внешних запросов */
   --font-mono: 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  /* Отдельного текстового шрифта нет: весь сайт моноширинный */
+  --font-sans: var(--font-mono);
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
-  --text-base: 1.0625rem;
-  --text-lg: 1.25rem;
-  --text-xl: clamp(1.375rem, 1rem + 1.2vw, 1.875rem);
-  --text-2xl: clamp(1.875rem, 1.2rem + 2.6vw, 3.25rem);
-  --text-3xl: clamp(2.5rem, 1.1rem + 5.6vw, 6.25rem);
-  /* Имя на первом экране: на десктопе занимает большую часть ширины */
-  --text-display: clamp(3.5rem, 16.4vw, 15rem);
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-2xl: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+  --text-3xl: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  --text-display: clamp(2rem, 1.1rem + 4vw, 4.25rem);
 
-  --leading-display: 0.9;
-  --leading-tight: 1.05;
-  --leading-snug: 1.25;
-  --leading-normal: 1.6;
+  --leading-display: 1.05;
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.65;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -31,57 +158,114 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --space-8: 4.5rem;
-  --space-9: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --space-8: 4rem;
+  --space-9: clamp(4rem, 3rem + 4vw, 7rem);
 
-  --page-width: 90rem;
-  --gutter: clamp(1rem, 3.5vw, 3rem);
-  /* Примерно 65–75 знаков в строке для основного текста */
-  --measure: 68ch;
-  --header-height: 4rem;
+  --page-width: 80rem;
+  --gutter: clamp(0.875rem, 3vw, 2.5rem);
+  --measure: 72ch;
+  --header-height: 3.5rem;
 
-  --duration-fast: 180ms;
-  --duration-slow: 520ms;
+  --duration-fast: 160ms;
+  --duration-slow: 480ms;
+  --duration-theme: 900ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Исходная палитра */
-  --graphite: #111214;
-  --graphite-raised: #1b1c20;
-  --paper: #f1efe8;
-  --paper-raised: #e7e4da;
-  --orange: #ff6b35;
+  /* Плавная смена ночи и дня: переходят только цвета */
+  transition:
+    --color-bg var(--duration-theme) ease,
+    --color-raised var(--duration-theme) ease,
+    --color-text var(--duration-theme) ease,
+    --color-muted var(--duration-theme) ease,
+    --color-line var(--duration-theme) ease,
+    --color-line-strong var(--duration-theme) ease,
+    --color-accent var(--duration-theme) ease,
+    --color-accent-text var(--duration-theme) ease,
+    --color-on-accent var(--duration-theme) ease,
+    --color-focus var(--duration-theme) ease,
+    --glow-color var(--duration-theme) ease,
+    --scene-sky var(--duration-theme) ease,
+    --scene-star var(--duration-theme) ease,
+    --scene-cursor var(--duration-theme) ease,
+    --scene-sun var(--duration-theme) ease,
+    --scene-cloud var(--duration-theme) ease,
+    --scene-far var(--duration-theme) ease,
+    --scene-near var(--duration-theme) ease,
+    --scene-snow var(--duration-theme) ease,
+    --scene-tree var(--duration-theme) ease,
+    --scene-trunk var(--duration-theme) ease,
+    --scene-water var(--duration-theme) ease,
+    --scene-glint var(--duration-theme) ease,
+    --scene-rock var(--duration-theme) ease,
+    --scene-grass var(--duration-theme) ease;
 }
 
-/* Светлая тема: тёплый светлый фон, графитовый текст, оранжевый — заливки и крупные элементы */
+/*
+ * Ночь: почти чёрный фон и фосфорно-зелёный.
+ * #1f7a3a (контраст 3.7:1) — только декор: рамки, линии, дальние горы.
+ * Мелкий вторичный текст — #2fae55 (7:1).
+ */
 :root,
-:root[data-theme='light'] {
-  color-scheme: light;
-  --color-bg: var(--paper);
-  --color-raised: var(--paper-raised);
-  --color-text: var(--graphite);
-  --color-muted: #57544c;
-  --color-line: rgb(17 18 20 / 0.16);
-  --color-line-strong: var(--graphite);
-  /* Оранжевый текст на светлом фоне не проходит контраст — для текста он темнее */
-  --color-accent: var(--orange);
-  --color-accent-text: #a8390c;
-  --color-on-accent: var(--graphite);
-  --color-focus: var(--graphite);
-  --grid-line: rgb(17 18 20 / 0.06);
-}
-
-/* Тёмная тема: не инверсия светлой — графит, приподнятые панели и яркий оранжевый для текста */
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --color-bg: var(--graphite);
-  --color-raised: var(--graphite-raised);
-  --color-text: var(--paper);
-  --color-muted: #a19d94;
-  --color-line: rgb(241 239 232 / 0.14);
-  --color-line-strong: var(--paper);
-  --color-accent: var(--orange);
-  --color-accent-text: var(--orange);
-  --color-on-accent: var(--graphite);
-  --color-focus: var(--orange);
-  --grid-line: rgb(241 239 232 / 0.05);
+  --color-bg: #050805;
+  --color-raised: #0a120b;
+  --color-text: #39ff6a;
+  --color-muted: #2fae55;
+  --color-line: #1f7a3a;
+  --color-line-strong: #39ff6a;
+  --color-accent: #39ff6a;
+  --color-accent-text: #39ff6a;
+  --color-on-accent: #050805;
+  --color-focus: #39ff6a;
+  --glow-color: rgb(57 255 106 / 0.45);
+
+  --scene-sky: #050805;
+  --scene-star: #39ff6a;
+  --scene-cursor: #39ff6a;
+  --scene-sun: transparent;
+  --scene-cloud: transparent;
+  --scene-far: #1f7a3a;
+  --scene-near: #2fae55;
+  --scene-snow: #8dffb0;
+  --scene-tree: #39ff6a;
+  --scene-trunk: #1f7a3a;
+  --scene-water: #1f7a3a;
+  --scene-glint: #39ff6a;
+  --scene-rock: #2fae55;
+  --scene-grass: #39ff6a;
+}
+
+/*
+ * День: тот же пейзаж в дневной палитре — голубое небо, жёлтое солнце,
+ * зелёные ели, бирюзовая вода. Без свечения, текст тёмный и контрастный.
+ */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #eaf4f8;
+  --color-raised: #f6fbfd;
+  --color-text: #0b2414;
+  --color-muted: #2e5a3d;
+  --color-line: #8fb4a2;
+  --color-line-strong: #0b2414;
+  --color-accent: #0e6b34;
+  --color-accent-text: #0e6b34;
+  --color-on-accent: #ffffff;
+  --color-focus: #0e6b34;
+  --glow-color: transparent;
+
+  --scene-sky: #bfe3f4;
+  --scene-star: transparent;
+  --scene-cursor: transparent;
+  --scene-sun: #d99a00;
+  --scene-cloud: #ffffff;
+  --scene-far: #7c95a8;
+  --scene-near: #4f6577;
+  --scene-snow: #ffffff;
+  --scene-tree: #1f7a3e;
+  --scene-trunk: #7a5230;
+  --scene-water: #1a9c98;
+  --scene-glint: #e0a100;
+  --scene-rock: #6d655c;
+  --scene-grass: #3c9a3a;
 }

@@ -1,107 +1,96 @@
 .about {
-  padding-block: var(--space-9);
+  padding-block: var(--space-8);
+  border-block: 1px dashed var(--color-line);
 }
 
 .grid {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 
 .heading {
-  color: var(--color-accent-text);
+  font-size: var(--text-xl);
 }
 
 .thesis {
-  max-width: 16ch;
+  max-width: 30ch;
   font-size: var(--text-3xl);
   font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.05em;
-  text-wrap: balance;
+  line-height: 1.15;
 }
 
 .text {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   max-width: var(--measure);
-  font-size: var(--text-lg);
-  line-height: 1.55;
-  color: var(--color-muted);
 }
 
-/* ——— Привычки безопасности ——— */
 .habits {
   display: grid;
-  gap: var(--space-3);
-  align-content: start;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
 }
 
 .habitsHeading {
-  color: var(--color-accent-text);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.habitsHeading::before {
+  content: '# ';
+  color: var(--color-line);
 }
 
 .habitsList {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-1);
   padding: 0;
   list-style: none;
+  font-size: var(--text-sm);
 }
 
 .habitsList li {
   display: grid;
-  grid-template-columns: 1.5rem minmax(0, 1fr);
-  gap: var(--space-2);
-  line-height: var(--leading-snug);
+  grid-template-columns: 4ch minmax(0, 1fr);
+  gap: 1ch;
 }
 
+/* Отмеченный пункт чек-листа */
 .habitsList li::before {
-  content: '✓';
-  font-family: var(--font-mono);
+  content: '[x]';
   color: var(--color-accent-text);
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2) 0;
-  padding: var(--space-4) 0 0;
+  gap: var(--space-1) 2ch;
+  margin-top: var(--space-2);
+  padding: 0;
   list-style: none;
-  border-top: 1px solid var(--color-line);
-  font-family: var(--font-mono);
   font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
-.tags li:not(:last-child)::after {
-  content: '/';
-  margin-inline: 0.75em;
-  color: var(--color-accent-text);
+.tags li::before {
+  content: '#';
+  color: var(--color-line);
 }
 
 @media (min-width: 64rem) {
   .grid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--space-5);
+    column-gap: var(--space-6);
   }
 
-  .heading,
-  .thesis {
+  .grid > * {
     grid-column: 1 / -1;
   }
 
-  .text {
-    grid-column: 6 / -1;
-  }
-
-  /* Привычки безопасности — в левой колонке, напротив основного текста */
-  .habits {
-    grid-column: 1 / span 4;
-    grid-row: 3;
-  }
-
+  .text,
+  .habits,
   .tags {
-    grid-column: 6 / -1;
+    grid-column: 1 / span 9;
   }
 }

@@ -6,8 +6,11 @@ export function AgentsSection() {
   return (
     <section id="agents" tabIndex={-1} className={styles.agents} aria-labelledby="agents-title">
       <div className={`container scroll-reveal ${styles.grid}`}>
+        <p className="prompt" aria-hidden="true">
+          cat agents.md
+        </p>
         <p className={`label ${styles.kicker}`}>ИИ-агенты · рабочий процесс</p>
-        <h2 id="agents-title" className={styles.title}>
+        <h2 id="agents-title" className={`hash glow ${styles.title}`}>
           Как я работаю с ИИ-агентами
         </h2>
         <p className={styles.lead}>
