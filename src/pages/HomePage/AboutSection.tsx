@@ -5,10 +5,13 @@ export function AboutSection() {
   return (
     <section id="about" tabIndex={-1} className={`surface-inverse ${styles.about}`} aria-labelledby="about-title">
       <div className={`container scroll-reveal ${styles.grid}`}>
-        <h2 id="about-title" className={`label ${styles.heading}`}>
+        <p className="prompt" aria-hidden="true">
+          cat about.txt
+        </p>
+        <h2 id="about-title" className={`hash ${styles.heading}`}>
           Обо мне
         </h2>
-        <p className={styles.thesis}>Учусь на реальных задачах.</p>
+        <p className={`glow ${styles.thesis}`}>Учусь на реальных задачах.</p>
         <div className={styles.text}>
           <p>
             Новые модели и инструменты сначала пробую на своих проектах, и только то, что дало пользу, оставляю в

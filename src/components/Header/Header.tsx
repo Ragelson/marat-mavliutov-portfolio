@@ -5,12 +5,12 @@ import { ExternalLink } from '../ExternalLink/ExternalLink.tsx'
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle.tsx'
 import styles from './Header.module.css'
 
-/** Ссылки ведут на секции главной страницы и поэтому работают с любой страницы сайта. */
+/** Команды-ссылки на секции главной страницы: работают с любой страницы сайта. */
 const navItems = [
-  { hash: '#work', label: 'Работы' },
-  { hash: '#agents', label: 'Агенты' },
-  { hash: '#about', label: 'Обо мне' },
-  { hash: '#contacts', label: 'Контакты' },
+  { hash: '#work', label: 'projects' },
+  { hash: '#agents', label: 'agents' },
+  { hash: '#about', label: 'about' },
+  { hash: '#contacts', label: 'contact' },
 ]
 
 export function Header() {
@@ -35,6 +35,9 @@ export function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <Link to="/" className={styles.brand} onClick={closeMenu}>
+          <span className={styles.brandPath} aria-hidden="true">
+            ~/
+          </span>
           {site.handle}
           <span className="visually-hidden"> — {site.name}, на главную</span>
         </Link>
@@ -55,6 +58,9 @@ export function Header() {
             {navItems.map((item) => (
               <li key={item.hash}>
                 <Link to={{ pathname: '/', hash: item.hash }} className={styles.link} onClick={closeMenu}>
+                  <span className={styles.chevron} aria-hidden="true">
+                    &gt;{' '}
+                  </span>
                   {item.label}
                 </Link>
               </li>

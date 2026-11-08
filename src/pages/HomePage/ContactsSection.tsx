@@ -1,5 +1,6 @@
 import { Arrow } from '../../components/Arrow/Arrow.tsx'
 import { ExternalLink } from '../../components/ExternalLink/ExternalLink.tsx'
+import { Signature } from '../../components/Signature/Signature.tsx'
 import { site } from '../../config/site.ts'
 import { getContactLinks } from '../../lib/contacts.ts'
 import styles from './ContactsSection.module.css'
@@ -11,8 +12,11 @@ export function ContactsSection() {
   return (
     <section id="contacts" tabIndex={-1} className={`surface-accent ${styles.finale}`} aria-labelledby="contacts-title">
       <div className={`container ${styles.grid}`}>
+        <p className="prompt" aria-hidden="true">
+          ./contact.sh
+        </p>
         <p className="label">Контакты</p>
-        <h2 id="contacts-title" className={styles.title}>
+        <h2 id="contacts-title" className={`glow ${styles.title}`}>
           Есть задача? Обсудим.
         </h2>
         <ul className={styles.list}>
@@ -39,11 +43,7 @@ export function ContactsSection() {
             )
           })}
         </ul>
-        <p className={styles.signature}>
-          <span>{site.name}</span>
-          <span className={styles.handle}>{site.handle}</span>
-          <span>{site.location}</span>
-        </p>
+        <Signature />
       </div>
     </section>
   )

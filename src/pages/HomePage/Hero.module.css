@@ -1,215 +1,240 @@
 .hero {
-  /* Не жёсткая высота: на высоких экранах обложка заполняет окно, на низких — растёт по содержимому */
-  min-height: min(calc(100svh - var(--header-height)), 64rem);
-  display: flex;
-}
-
-.grid {
   display: grid;
-  align-content: space-between;
-  gap: var(--space-5);
-  padding-block: var(--space-5);
+  gap: 0;
 }
 
-.kicker {
-  color: var(--color-muted);
+/* ——— Терминал: whoami и роль ——— */
+.terminal {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-6) var(--space-5);
 }
 
-/* ——— Имя ——— */
 .name {
-  display: grid;
   font-size: var(--text-display);
   font-weight: 800;
   line-height: var(--leading-display);
-  letter-spacing: -0.055em;
-  text-wrap: nowrap;
+  color: var(--color-text);
 }
 
-/* Вторая строка смещена — асимметрия вместо центровки */
-.last {
-  justify-self: end;
+.role {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
-.last::after {
-  content: '';
-  display: inline-block;
-  width: 0.14em;
-  height: 0.14em;
-  margin-left: 0.04em;
-  background: var(--color-accent);
+.location {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
 }
 
-/* ——— Направления ——— */
+/*
+ * «Печать»: ширина растёт от 0 до полной длины строки ступенями по одному символу.
+ * Текст при этом целиком в DOM и доступен скринридеру.
+ */
+.typed {
+  display: inline;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .name .typed {
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: bottom;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: type calc(var(--chars) * 55ms) steps(var(--chars), end) var(--delay) both;
+  }
+
+  /* Роль печатается только там, где помещается в одну строку */
+  @media (min-width: 48rem) {
+    .role .typed {
+      display: inline-block;
+      vertical-align: bottom;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: type calc(var(--chars) * 35ms) steps(var(--chars), end) var(--delay) both;
+    }
+  }
+}
+
+@keyframes type {
+  from {
+    width: 0;
+  }
+  to {
+    width: calc(var(--chars) * 1ch);
+  }
+}
+
+.cursor {
+  vertical-align: -0.1em;
+}
+
+/* ——— Под пейзажем ——— */
+.grid {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-5) var(--space-7);
+}
+
 .directions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1) var(--space-5);
+  gap: var(--space-2) var(--space-3);
   padding: 0;
   list-style: none;
-  font-size: var(--text-xl);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: var(--text-sm);
+  font-weight: 600;
 }
 
-.directions li {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--space-2);
+/* Направление — как пункт в квадратных скобках */
+.directions li::before {
+  content: '[';
+  color: var(--color-line);
+  margin-right: 0.5ch;
 }
 
-.number {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--color-accent-text);
+.directions li::after {
+  content: ']';
+  color: var(--color-line);
+  margin-left: 0.5ch;
 }
 
 .lead {
   display: grid;
   gap: var(--space-4);
-  max-width: 44ch;
 }
 
 .intro {
-  font-size: var(--text-lg);
-  line-height: 1.5;
+  max-width: 62ch;
+  line-height: 1.6;
 }
 
-/* Факты о работе: статус, формат, часовой пояс, языки */
 .facts {
   display: grid;
-  gap: var(--space-2);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-line);
+  gap: var(--space-1);
+  font-size: var(--text-sm);
 }
 
+/* Факты в виде «ключ: значение» */
 .fact {
   display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr);
-  align-items: baseline;
-  gap: var(--space-3);
+  grid-template-columns: 15ch minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.fact dt {
+  color: var(--color-muted);
 }
 
 .fact dd {
-  font-weight: 600;
-  line-height: var(--leading-snug);
+  color: var(--color-text);
 }
 
-/* ——— Главная ссылка: оранжевый блок с тёмным текстом ——— */
+/* Главная ссылка: строка-команда в рамке, при наведении — инверсия */
 .cta {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-4);
-  min-height: 6rem;
-  padding: var(--space-4) var(--space-5);
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-  font-size: var(--text-xl);
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 1ch;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-line-strong);
+  font-size: var(--text-lg);
   font-weight: 700;
-  letter-spacing: -0.02em;
   text-decoration: none;
 }
 
+.ctaPrompt {
+  color: var(--color-accent-text);
+}
+
+.cta:hover .ctaPrompt {
+  color: inherit;
+}
+
 .cta svg {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.1em;
+  height: 1.1em;
   transition: transform var(--duration-fast) var(--ease-out);
 }
 
-.cta:hover {
-  color: var(--color-on-accent);
-}
-
 .cta:hover svg {
-  transform: translate(0.2rem, 0.2rem);
+  transform: translate(0.15rem, 0.15rem);
 }
 
-.cta:focus-visible {
-  outline-color: var(--color-text);
-}
-
-/* ——— Индекс избранных работ ——— */
+/* ——— Индекс избранного ——— */
 .index {
   display: grid;
-  gap: var(--space-3);
-  padding-top: var(--space-3);
-  border-top: 2px solid var(--color-line-strong);
+  gap: var(--space-2);
 }
 
 .indexList {
   display: grid;
   padding: 0;
   list-style: none;
+  border-top: 1px dashed var(--color-line);
 }
 
 .indexLink {
   display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
-  align-items: baseline;
-  gap: 0 var(--space-3);
-  padding-block: var(--space-2);
-  border-bottom: 1px solid var(--color-line);
+  grid-template-columns: 3ch minmax(0, 1fr);
+  gap: 0 1ch;
+  padding: var(--space-2) 1ch;
+  border-bottom: 1px dashed var(--color-line);
   text-decoration: none;
 }
 
+.number {
+  color: var(--color-muted);
+}
+
 .indexTitle {
-  font-size: var(--text-lg);
   font-weight: 700;
 }
 
 .indexMeta {
   grid-column: 2;
-  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--color-muted);
 }
 
-.indexLink:hover .indexTitle {
-  color: var(--color-accent-text);
-  text-decoration: underline;
+.indexLink:hover .number,
+.indexLink:hover .indexMeta {
+  color: inherit;
 }
 
-/* ——— Десктоп: 12-колоночная обложка ——— */
 @media (min-width: 64rem) {
   .grid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--space-5);
-    row-gap: var(--space-5);
-  }
-
-  .kicker,
-  .name,
-  .index {
-    grid-column: 1 / -1;
+    column-gap: var(--space-6);
   }
 
   .directions {
-    grid-column: 1 / span 4;
-    flex-direction: column;
-    align-self: end;
+    grid-column: 1 / -1;
   }
 
   .lead {
-    grid-column: 5 / span 4;
-    align-self: end;
+    grid-column: 1 / span 7;
   }
 
   .cta {
-    grid-column: 9 / -1;
-    align-self: end;
-    min-height: 7rem;
+    grid-column: 1 / span 7;
   }
 
-  .indexList {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--space-5);
+  .index {
+    grid-column: 8 / -1;
+    grid-row: 2 / span 2;
+    align-self: start;
   }
 
   .indexLink {
-    border-bottom: 0;
+    grid-template-columns: 3ch minmax(0, 1fr) auto;
+  }
+
+  .indexMeta {
+    grid-column: 3;
+    align-self: center;
   }
 }

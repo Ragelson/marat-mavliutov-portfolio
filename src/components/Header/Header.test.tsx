@@ -5,11 +5,14 @@ import { renderApp } from '../../test/renderApp.tsx'
 describe('шапка', () => {
   it('переключатель темы меняет тему и сохраняет выбор', async () => {
     const { user } = renderApp('/')
-    const toggle = screen.getByRole('switch', { name: 'Тёмная тема' })
-    expect(toggle).toHaveAttribute('aria-checked', 'false')
+    const night = screen.getByRole('button', { name: 'night' })
+    const day = screen.getByRole('button', { name: 'day' })
+    expect(day).toHaveAttribute('aria-pressed', 'true')
+    expect(night).toHaveAttribute('aria-pressed', 'false')
 
-    await user.click(toggle)
-    expect(toggle).toHaveAttribute('aria-checked', 'true')
+    await user.click(night)
+    expect(night).toHaveAttribute('aria-pressed', 'true')
+    expect(day).toHaveAttribute('aria-pressed', 'false')
     expect(document.documentElement.dataset.theme).toBe('dark')
     expect(window.localStorage.getItem('theme')).toBe('dark')
   })
@@ -17,7 +20,7 @@ describe('шапка', () => {
   it('берёт сохранённую тему при загрузке', () => {
     window.localStorage.setItem('theme', 'dark')
     renderApp('/')
-    expect(screen.getByRole('switch', { name: 'Тёмная тема' })).toHaveAttribute('aria-checked', 'true')
+    expect(screen.getByRole('button', { name: 'night' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   it('мобильное меню закрывается по Escape и возвращает фокус на кнопку', async () => {
@@ -37,6 +40,9 @@ describe('шапка', () => {
 
   it('ссылки навигации ведут на секции главной страницы', () => {
     renderApp('/projects/vivox')
-    expect(screen.getByRole('link', { name: 'Работы' })).toHaveAttribute('href', '/#work')
+    expect(screen.getByRole('link', { name: 'projects' })).toHaveAttribute('href', '/#work')
+    expect(screen.getByRole('link', { name: 'agents' })).toHaveAttribute('href', '/#agents')
+    expect(screen.getByRole('link', { name: 'about' })).toHaveAttribute('href', '/#about')
+    expect(screen.getByRole('link', { name: 'contact' })).toHaveAttribute('href', '/#contacts')
   })
 })

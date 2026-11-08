@@ -1,128 +1,110 @@
 .agents {
-  padding-block: var(--space-9);
+  padding-block: var(--space-8);
 }
 
 .grid {
   display: grid;
-  gap: var(--space-5);
-  border-top: 2px solid var(--color-line-strong);
-  padding-top: var(--space-6);
+  gap: var(--space-3);
 }
 
 .kicker {
-  color: var(--color-accent-text);
-}
-
-.title {
-  font-size: var(--text-2xl);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-
-.lead {
-  max-width: var(--measure);
-  font-size: var(--text-lg);
-  line-height: 1.5;
   color: var(--color-muted);
 }
 
-/* ——— Три режима работы ——— */
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+}
+
+.lead {
+  max-width: 70ch;
+  margin-top: var(--space-2);
+}
+
+/* Режимы работы — колонки в рамках */
 .modes {
   display: grid;
   gap: var(--space-4);
+  margin-top: var(--space-5);
   padding: 0;
-  margin-top: var(--space-2);
   list-style: none;
 }
 
 .mode {
   display: grid;
+  align-content: start;
   gap: var(--space-2);
-  padding: var(--space-4) var(--space-5) var(--space-5);
-  border: 1.5px solid var(--color-line-strong);
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  font-size: var(--text-sm);
 }
 
-.mode:first-child {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-}
-
-.mode:first-child .modeScope {
-  color: var(--color-on-accent);
+.mode:hover {
+  border-color: var(--color-line-strong);
 }
 
 .modeTitle {
-  font-size: var(--text-xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: var(--text-lg);
 }
 
-/* ——— Два списка ——— */
+.modeTitle::before {
+  content: '> ';
+  color: var(--color-accent-text);
+}
+
+.modeScope {
+  color: var(--color-muted);
+}
+
 .lists {
   display: grid;
   gap: var(--space-5);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-line);
+  margin-top: var(--space-5);
 }
 
 .listBlock {
   display: grid;
-  gap: var(--space-3);
   align-content: start;
+  gap: var(--space-2);
 }
 
 .listHeading {
-  color: var(--color-accent-text);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.listHeading::before {
+  content: '# ';
+  color: var(--color-line);
 }
 
 .list {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-1);
   padding: 0;
   list-style: none;
+  font-size: var(--text-sm);
 }
 
 .list li {
   display: grid;
-  grid-template-columns: 1.5rem minmax(0, 1fr);
-  gap: var(--space-2);
-  line-height: var(--leading-snug);
+  grid-template-columns: 2ch minmax(0, 1fr);
+  gap: 1ch;
 }
 
 .list li::before {
-  content: '→';
-  font-family: var(--font-mono);
+  content: '-';
   color: var(--color-accent-text);
 }
 
-@media (min-width: 64rem) {
-  .grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--space-5);
-  }
-
-  .kicker,
-  .modes,
-  .lists {
-    grid-column: 1 / -1;
-  }
-
-  .title {
-    grid-column: 1 / span 6;
-  }
-
-  .lead {
-    grid-column: 8 / -1;
-    align-self: end;
-  }
-
+@media (min-width: 52rem) {
   .modes {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   }
 
   .lists {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--space-7);
+    column-gap: var(--space-6);
   }
 }

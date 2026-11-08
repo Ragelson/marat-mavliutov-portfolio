@@ -4,6 +4,7 @@ import { Arrow } from '../../components/Arrow/Arrow.tsx'
 import { CaseSection, TextBlockView } from '../../components/CaseSection/CaseSection.tsx'
 import { ProjectDiagram } from '../../components/Diagrams/ProjectDiagram.tsx'
 import { ExternalLink } from '../../components/ExternalLink/ExternalLink.tsx'
+import { Signature } from '../../components/Signature/Signature.tsx'
 import { categoryLabels } from '../../data/categories.ts'
 import { useDocumentMeta } from '../../hooks/useDocumentMeta.ts'
 import {
@@ -120,8 +121,11 @@ function ProjectCase({ project }: { project: Project }) {
           <Arrow direction="left" />
           Все работы
         </Link>
+        <p className="prompt" aria-hidden="true">
+          cat ./projects/{project.slug}.md
+        </p>
         <p className="label">{[project.workType, ...project.categories.map((c) => categoryLabels[c])].filter(Boolean).join(' · ')}</p>
-        <h1 className={styles.title}>{project.title}</h1>
+        <h1 className={`glow ${styles.title}`}>{project.title}</h1>
         <p className={styles.lead}>{project.summary}</p>
         <dl className={styles.facts}>
           {facts.map((fact) => (
@@ -176,6 +180,11 @@ function ProjectCase({ project }: { project: Project }) {
           </Link>
         </div>
       </nav>
+      <div className={`surface-inverse ${styles.signature}`}>
+        <div className="container">
+          <Signature />
+        </div>
+      </div>
     </article>
   )
 }

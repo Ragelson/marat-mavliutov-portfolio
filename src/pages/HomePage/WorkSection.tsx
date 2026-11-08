@@ -10,7 +10,10 @@ export function WorkSection() {
   return (
     <section id="work" tabIndex={-1} aria-labelledby="work-title">
       <div className={`container ${styles.intro}`}>
-        <h2 id="work-title" className={styles.title}>
+        <p className="prompt" aria-hidden="true">
+          ls ./projects
+        </p>
+        <h2 id="work-title" className={`hash glow ${styles.title}`}>
           Работы
         </h2>
         <p className={styles.lead}>

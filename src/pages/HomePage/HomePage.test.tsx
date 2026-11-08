@@ -1,6 +1,7 @@
 import { screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { projects } from '../../data/projects.ts'
+import { site } from '../../config/site.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
 const byStatus = (status: string) => projects.filter((p) => p.publicationStatus === status)
@@ -48,5 +49,12 @@ describe('главная страница', () => {
     expect(contactLinks[0]).toHaveAccessibleName(/^Написать на почту/)
     expect(contactLinks[1]).toHaveAccessibleName(/^GitHub/)
     expect(within(contacts).queryByRole('link', { name: /Telegram|LinkedIn/i })).not.toBeInTheDocument()
+  })
+
+  it('держит имя целиком в заголовке и скрывает пейзаж от скринридеров', () => {
+    const { container } = renderApp('/')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(site.name)
+    const scene = container.querySelector('pre')?.closest('[aria-hidden="true"]')
+    expect(scene).not.toBeNull()
   })
 })
